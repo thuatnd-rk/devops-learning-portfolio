@@ -10,8 +10,8 @@ Hi, I'm a DevOps Engineer with a passion for cloud-native technologies and autom
 
 ## 🎯 Current Focus Areas
 
-- **Kubernetes Administration** (CKA preparation)
-- **AWS Cloud Architecture** (Solutions Architect Associate)
+- **AWS Solutions Architect Professional** (SAP C02 - August 2024)
+- **Kubernetes Administration** (CKA - December 2024)
 - **Infrastructure as Code** (Terraform, CloudFormation)
 - **GitOps & CI/CD** (ArgoCD, Flux, GitHub Actions, Jenkins)
 - **Monitoring & Observability** (Prometheus, Grafana, Jaeger)
@@ -110,9 +110,9 @@ devops-learning-portfolio/
 - [x] **Kubernetes Basics** - Pods, Services, Deployments
 - [x] **Infrastructure as Code** - Terraform, CloudFormation
 - [x] **Monitoring Setup** - Prometheus, Grafana
-- [ ] **CKA Certification** - In Progress
-- [ ] **AWS Solutions Architect Associate** - Planned
-- [ ] **GitOps & CI/CD** - Not Started
+- [ ] **AWS Solutions Architect Professional** - In Progress (August 2024)
+- [ ] **CKA Certification** - In Progress (December 2024)
+- [ ] **GitOps & CI/CD** - Not Started (January 2025)
 - [ ] **Advanced Kubernetes** - Service Mesh, Operators
 - [ ] **Linux System Administration** - In Progress
 
@@ -123,8 +123,8 @@ See [ROADMAP.md](./ROADMAP.md) for detailed learning path and goals.
 
 | Skill Category | Current Level | Target Level | Timeline |
 |----------------|---------------|--------------|----------|
-| Kubernetes | Intermediate | Expert | 6 months |
-| AWS Cloud | Intermediate | Expert | 12 months |
+| AWS Solutions Architect Professional | Advanced | Expert | 1 month |
+| Kubernetes | Intermediate | Expert | 5 months |
 | Terraform | Intermediate | Expert | 6 months |
 | GitOps & CI/CD | Beginner | Expert | 6 months |
 | Monitoring | Intermediate | Expert | 6 months |
@@ -134,8 +134,8 @@ See [ROADMAP.md](./ROADMAP.md) for detailed learning path and goals.
 ## 🎯 Career Goals
 
 ### **Short Term (6 months)**
-- [ ] Obtain CKA certification
-- [ ] Complete AWS Solutions Architect Associate
+- [ ] Obtain SAP C02 certification (August 2024)
+- [ ] Complete CKA certification (December 2024)
 - [ ] Master GitOps and CI/CD practices
 - [ ] Master advanced Kubernetes concepts
 - [ ] Build comprehensive monitoring solutions
