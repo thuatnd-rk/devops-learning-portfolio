@@ -217,10 +217,9 @@ This portfolio is a personal learning journey, but contributions and suggestions
 
 ## 📞 Contact
 
-- **LinkedIn**: [Your LinkedIn Profile]
-- **Email**: [Your Email]
-- **GitHub**: [Your GitHub Profile]
-- **Blog**: [Your Technical Blog]
+- **LinkedIn**: [https://www.linkedin.com/in/thuatnguyen/](https://www.linkedin.com/in/thuatnguyen/)
+- **Email**: thuatnguyen1011@gmail.com
+- **GitHub**: [https://github.com/thuatnd-rk](https://github.com/thuatnd-rk)
 
 ## 📄 License
 
