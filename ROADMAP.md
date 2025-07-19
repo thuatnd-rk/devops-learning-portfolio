@@ -8,13 +8,48 @@ This roadmap outlines my learning journey from Junior DevOps Engineer to Senior 
 
 | Phase | Duration | Focus Areas | Target Level |
 |-------|----------|-------------|--------------|
-| **Phase 1** | 6 months | Foundation & Certifications | Intermediate |
-| **Phase 2** | 6 months | Advanced Topics & Specialization | Advanced |
-| **Phase 3** | 12 months | Expert Level & Leadership | Expert |
+| **Phase 1** | 2 months | SAP C02 Certification | Expert |
+| **Phase 2** | 4 months | CKA Certification | Expert |
+| **Phase 3** | 6 months | GitOps & Advanced Topics | Expert |
+| **Phase 4** | 12 months | Leadership & Architecture | Expert |
 
-## 🚀 Phase 1: Foundation & Certifications (Months 1-6)
+## 🚀 Phase 1: SAP C02 Certification (July-August 2024)
 
-### **Month 1-2: CKA Preparation**
+### **Month 1: SAP C02 Preparation**
+- [ ] **AWS Advanced Services**
+  - [ ] Lambda, API Gateway, Step Functions
+  - [ ] ECS, EKS, Fargate
+  - [ ] DynamoDB, Aurora, ElastiCache
+  - [ ] CloudFront, S3 Transfer Acceleration
+- [ ] **Architecture Design**
+  - [ ] Multi-tier architecture patterns
+  - [ ] High availability design
+  - [ ] Disaster recovery strategies
+  - [ ] Cost optimization techniques
+- [ ] **Practice Exams**
+  - [ ] Complete 6 SAP C02 practice exams
+  - [ ] Review weak areas
+  - [ ] Mock exam simulation
+
+### **Month 2: SAP C02 Final Preparation**
+- [ ] **Advanced Networking**
+  - [ ] Transit Gateway, VPC peering
+  - [ ] Direct Connect, VPN
+  - [ ] Route53 advanced features
+  - [ ] Network security best practices
+- [ ] **Security & Compliance**
+  - [ ] IAM advanced features
+  - [ ] KMS, Secrets Manager
+  - [ ] GuardDuty, Security Hub
+  - [ ] Compliance frameworks
+- [ ] **Practice Tests**
+  - [ ] Complete final practice exams
+  - [ ] Mock exam simulation
+  - [ ] Exam scheduling
+
+## 🚀 Phase 2: CKA Certification (September-December 2024)
+
+### **Month 3-4: CKA Preparation**
 - [ ] **Kubernetes Core Concepts**
   - [ ] Pods, Services, Deployments
   - [ ] ConfigMaps, Secrets, Volumes
@@ -26,45 +61,16 @@ This roadmap outlines my learning journey from Junior DevOps Engineer to Senior 
   - [ ] Security best practices
   - [ ] Backup and recovery
 - [ ] **Practice Exams**
-  - [ ] Complete 5 mock exams
+  - [ ] Complete 8-10 CKA practice exams
   - [ ] Review weak areas
   - [ ] Hands-on lab practice
 
-### **Month 3-4: AWS Solutions Architect Associate**
-- [ ] **AWS Core Services**
-  - [ ] EC2, VPC, IAM
-  - [ ] S3, RDS, ElastiCache
-  - [ ] CloudFormation, CloudWatch
-  - [ ] Route53, ALB/NLB
-- [ ] **Architecture Best Practices**
-  - [ ] High availability design
-  - [ ] Security and compliance
-  - [ ] Cost optimization
-  - [ ] Performance optimization
-- [ ] **Practice Tests**
-  - [ ] Complete AWS practice exams
-  - [ ] Hands-on lab exercises
-
-### **Month 5-6: Advanced Kubernetes & Monitoring**
+### **Month 5-6: Advanced Kubernetes & GitOps**
 - [ ] **Kubernetes Advanced Topics**
   - [ ] Custom Resources (CRDs)
   - [ ] Operators and Controllers
   - [ ] Admission Controllers
   - [ ] Service Mesh (Istio/Linkerd)
-- [ ] **Monitoring & Observability**
-  - [ ] Prometheus advanced configuration
-  - [ ] Custom metrics and exporters
-  - [ ] Distributed tracing with Jaeger
-  - [ ] Log aggregation with ELK stack
-
-## 🔥 Phase 2: Advanced Topics & Specialization (Months 7-12)
-
-### **Month 7-8: Infrastructure as Code & GitOps**
-- [ ] **Terraform Advanced**
-  - [ ] Module development
-  - [ ] State management
-  - [ ] Workspace management
-  - [ ] Custom providers
 - [ ] **GitOps Implementation**
   - [ ] GitOps principles and methodology
   - [ ] ArgoCD setup and configuration
@@ -76,6 +82,20 @@ This roadmap outlines my learning journey from Junior DevOps Engineer to Senior 
   - [ ] Jenkins pipeline development
   - [ ] GitLab CI/CD implementation
   - [ ] Tekton for cloud-native CI/CD
+
+## 🚀 Phase 3: GitOps & Advanced Topics (January-June 2025)
+
+### **Month 7-8: GitOps & CI/CD Mastery**
+- [ ] **GitOps Implementation**
+  - [ ] ArgoCD production deployment
+  - [ ] Multi-cluster management
+  - [ ] Security and compliance
+  - [ ] Monitoring integration
+- [ ] **CI/CD Pipeline Development**
+  - [ ] GitHub Actions advanced workflows
+  - [ ] Jenkins enterprise setup
+  - [ ] GitLab CI/CD implementation
+  - [ ] Tekton cloud-native CI/CD
 
 ### **Month 9-10: Security & Compliance**
 - [ ] **DevSecOps Practices**
@@ -101,7 +121,7 @@ This roadmap outlines my learning journey from Junior DevOps Engineer to Senior 
   - [ ] Load balancer optimization
   - [ ] Traffic management
 
-## 🏆 Phase 3: Expert Level & Leadership (Months 13-24)
+## 🏆 Phase 4: Expert Level & Leadership (July 2025-June 2026)
 
 ### **Month 13-16: Platform Engineering**
 - [ ] **Internal Developer Platform**
@@ -169,14 +189,14 @@ This roadmap outlines my learning journey from Junior DevOps Engineer to Senior 
 ## 🎯 Certification Goals
 
 ### **Short Term (6 months)**
-- [ ] **CKA** (Certified Kubernetes Administrator)
-- [ ] **AWS Solutions Architect Associate**
-- [ ] **Terraform Associate**
+- [ ] **SAP C02** (AWS Solutions Architect Professional) - August 2024
+- [ ] **CKA** (Certified Kubernetes Administrator) - December 2024
+- [ ] **Terraform Associate** - February 2025
 
 ### **Medium Term (12 months)**
 - [ ] **CKAD** (Certified Kubernetes Application Developer)
-- [ ] **AWS Solutions Architect Professional**
 - [ ] **CKS** (Certified Kubernetes Security Specialist)
+- [ ] **GitOps & CI/CD Mastery**
 
 ### **Long Term (24 months)**
 - [ ] **AWS DevOps Engineer Professional**
