@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  streamlit-app:
+    build: .
+    ports:
+      - "8501:8501"
+    environment:
+      # Only set non-sensitive environment variables here
+      - AWS_DEFAULT_REGION=${AWS_REGION:-ap-southeast-1}
+    env_file:
+      # Load sensitive variables from .env file (for local development only)
+      - .env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8501/_stcore/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    # Note: For production deployment on ECS, use Parameter Store instead of .env file

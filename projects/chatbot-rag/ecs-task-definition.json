@@ -1,0 +1,64 @@
+{
+  "family": "bedrock-agent-chatbot",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::187091248012:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::187091248012:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "bedrock-chatbot",
+      "image": "187091248012.dkr.ecr.ap-southeast-1.amazonaws.com/genai-poc-registry:latest",
+      "portMappings": [
+        {
+          "containerPort": 8501,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/bedrock-agent-chatbot",
+          "awslogs-region": "ap-southeast-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "environment": [
+        {
+          "name": "AWS_DEFAULT_REGION",
+          "value": "ap-southeast-1"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "AWS_ACCESS_KEY_ID",
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:187091248012:secret:bedrock-chatbot-m0iwh4:AWS_ACCESS_KEY_ID::"
+        },
+        {
+          "name": "AWS_SECRET_ACCESS_KEY",
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:187091248012:secret:bedrock-chatbot-m0iwh4:AWS_SECRET_ACCESS_KEY::"
+        },
+        {
+          "name": "AGENT_ID",
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:187091248012:secret:bedrock-chatbot-m0iwh4:AGENT_ID::"
+        },
+        {
+          "name": "ALIAS_ID",
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:187091248012:secret:bedrock-chatbot-m0iwh4:ALIAS_ID::"
+        }
+      ],
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "curl -f http://localhost:8501 || exit 1"
+        ],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 60
+      }
+    }
+  ]
+}
