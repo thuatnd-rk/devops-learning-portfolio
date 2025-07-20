@@ -1,8 +1,14 @@
 # 🎈 Streamlit + LLM Examples App
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/streamlit/llm-examples?quickstart=1)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?repo_name=streamlit/llm-examples&quickstart=1)
 
 Starter examples for building LLM apps with Streamlit.
+
+## Authors
+
+- **Lam Nguyen Dinh**
+- **Kien Luong Trung** 
+- **Thuat Nguyen Danh**
 
 ## Overview of the App
 
