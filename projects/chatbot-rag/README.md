@@ -97,7 +97,3 @@ AGENT_ID=your_bedrock_agent_id
 ALIAS_ID=your_bedrock_alias_id
 API_ENDPOINT_URL=your_api_endpoint_url
 ```
-
-### AWS Credentials Setup
-
-See [SETUP.md](SETUP.md) for detailed security configuration instructions.
