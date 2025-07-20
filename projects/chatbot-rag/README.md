@@ -6,9 +6,9 @@ Starter examples for building LLM apps with Streamlit.
 
 ## Authors
 
-- **Lam Nguyen Dinh**
-- **Kien Luong Trung** 
-- **Thuat Nguyen Danh**
+- **Lam Nguyen Dinh** - [LinkedIn](https://www.linkedin.com/in/ndinlam/)
+- **Kien Luong Trung** - [LinkedIn](https://www.linkedin.com/in/carwynluong/)
+- **Thuat Nguyen Danh** - [LinkedIn](https://www.linkedin.com/in/thuatnguyen/)
 
 ## Overview of the App
 
