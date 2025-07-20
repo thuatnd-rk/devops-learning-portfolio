@@ -242,7 +242,7 @@ By contributing to this project, you agree that your contributions will be licen
 ## 🚀 Getting Started
 
 1. **Fork the repository**
-2. **Clone your fork**: `git clone https://github.com/your-username/devops-learning-portfolio.git`
+2. **Clone your fork**: `git clone https://github.com/thuatnd-rk/devops-learning-portfolio.git`
 3. **Create a branch**: `git checkout -b feature/your-feature`
 4. **Make your changes**
 5. **Commit your changes**: `git commit -m "Add: your feature description"`
