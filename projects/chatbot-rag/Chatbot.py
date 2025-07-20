@@ -42,12 +42,10 @@ def send_chat_to_api(session_id, message, sender):
         logger.error(f"Failed to send message to API: {str(e)}")
         # Don't raise the exception to prevent disrupting the chat flow
 
-# Get AWS credentials and configuration
+# Get AWS configuration (using default credential chain)
 def get_aws_config():
-    """Get AWS configuration with proper error handling and validation"""
+    """Get AWS configuration using default credential chain for security"""
     config = {
-        'aws_access_key': os.getenv("AWS_ACCESS_KEY_ID"),
-        'aws_secret_key': os.getenv("AWS_SECRET_ACCESS_KEY"),
         'aws_region': os.getenv("AWS_REGION") or os.getenv("AWS_DEFAULT_REGION", "ap-southeast-1"),
         'agent_id': os.getenv("AGENT_ID"),
         'alias_id': os.getenv("ALIAS_ID")
@@ -57,53 +55,27 @@ def get_aws_config():
     logger.info(f"AWS Region: {config['aws_region']}")
     logger.info(f"Agent ID: {'✅ Set' if config['agent_id'] else '❌ Missing'}")
     logger.info(f"Alias ID: {'✅ Set' if config['alias_id'] else '❌ Missing'}")
-    logger.info(f"AWS Access Key: {'✅ Set' if config['aws_access_key'] else '❌ Missing'}")
-    logger.info(f"AWS Secret Key: {'✅ Set' if config['aws_secret_key'] else '❌ Missing'}")
-
-    # Validate credentials format
-    if config['aws_access_key']:
-        # Remove any whitespace or newlines that might cause issues
-        config['aws_access_key'] = config['aws_access_key'].strip()
-        if len(config['aws_access_key']) < 16:
-            logger.warning("AWS Access Key seems too short")
-
-    if config['aws_secret_key']:
-        # Remove any whitespace or newlines that might cause issues
-        config['aws_secret_key'] = config['aws_secret_key'].strip()
-        if len(config['aws_secret_key']) < 32:
-            logger.warning("AWS Secret Key seems too short")
+    logger.info("AWS Credentials: Using default credential chain (AWS CLI/Instance Profile)")
 
     return config
 
 # Get configuration
 aws_config = get_aws_config()
-aws_access_key = aws_config['aws_access_key']
-aws_secret_key = aws_config['aws_secret_key']
 aws_region = aws_config['aws_region']
 agent_id = aws_config['agent_id']
 alias_id = aws_config['alias_id']
 
-def create_bedrock_client(aws_region, aws_access_key=None, aws_secret_key=None):
+def create_bedrock_client(aws_region):
     """
-    Create Bedrock client with proper credential handling
+    Create Bedrock client using default credential chain for security
     """
     try:
-        # If credentials are provided, use them explicitly
-        if aws_access_key and aws_secret_key:
-            logger.info("Creating Bedrock client with explicit credentials")
-            client = boto3.client(
-                "bedrock-agent-runtime",
-                region_name=aws_region,
-                aws_access_key_id=aws_access_key,
-                aws_secret_access_key=aws_secret_key
-            )
-        else:
-            # Use default credential chain (IAM roles, environment variables, etc.)
-            logger.info("Creating Bedrock client with default credential chain")
-            client = boto3.client(
-                "bedrock-agent-runtime",
-                region_name=aws_region
-            )
+        # Use default credential chain (IAM roles, AWS CLI, environment variables, etc.)
+        logger.info("Creating Bedrock client with default credential chain")
+        client = boto3.client(
+            "bedrock-agent-runtime",
+            region_name=aws_region
+        )
 
         logger.info("Bedrock client created successfully")
         return client
@@ -335,10 +307,6 @@ if not st.session_state.get("selected_session"):
     if prompt := st.chat_input("Nhập câu hỏi của bạn"):
         # Validate environment variables
         missing_vars = []
-        if not aws_access_key:
-            missing_vars.append("AWS_ACCESS_KEY_ID")
-        if not aws_secret_key:
-            missing_vars.append("AWS_SECRET_ACCESS_KEY")
         if not agent_id:
             missing_vars.append("AGENT_ID")
         if not alias_id:
@@ -360,7 +328,7 @@ if not st.session_state.get("selected_session"):
 
         try:
             logger.info("Creating Bedrock client...")
-            client = create_bedrock_client(aws_region, aws_access_key, aws_secret_key)
+            client = create_bedrock_client(aws_region)
 
             # Create a placeholder for streaming response
             full_response = ""

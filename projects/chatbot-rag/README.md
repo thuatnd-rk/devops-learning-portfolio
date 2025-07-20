@@ -74,3 +74,30 @@ streamlit run Chatbot.py
 # Install dependencies and run in one command
 uv run streamlit run Chatbot.py
 ```
+
+## AWS Bedrock Configuration
+
+This chatbot uses AWS Bedrock Agent with secure credential management. **No hardcoded AWS credentials needed!**
+
+### Security Setup
+
+The application uses AWS SDK's default credential chain, which automatically loads credentials from:
+- AWS CLI configuration
+- IAM Instance Profile (EC2/ECS)
+- Environment variables
+- AWS SSO
+
+### Required Configuration
+
+Create a `.env` file with only non-sensitive variables:
+
+```sh
+AWS_DEFAULT_REGION=ap-southeast-1
+AGENT_ID=your_bedrock_agent_id
+ALIAS_ID=your_bedrock_alias_id
+API_ENDPOINT_URL=your_api_endpoint_url
+```
+
+### AWS Credentials Setup
+
+See [SETUP.md](SETUP.md) for detailed security configuration instructions.
