@@ -1,0 +1,35 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Retrieve",
+            "Effect": "Allow",
+            "Action": [
+                "bedrock:Retrieve"
+            ],
+            "Resource": [
+                "arn:aws:bedrock:ap-southeast-1:187091248012:knowledge-base/07PPNZFMN3"
+            ]
+        },
+        {
+            "Sid": "RetrieveAndGenerate",
+            "Effect": "Allow",
+            "Action": [
+                "bedrock:RetrieveAndGenerate"
+            ],
+            "Resource": [
+                "arn:aws:bedrock:ap-southeast-1:187091248012:knowledge-base/07PPNZFMN3"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "bedrock:InvokeModel*"
+            ],
+            "Resource": [
+                "arn:aws:bedrock:*::foundation-model/*",
+                "arn:aws:bedrock:*:*:inference-profile/*"
+            ]
+        }
+    ]
+}

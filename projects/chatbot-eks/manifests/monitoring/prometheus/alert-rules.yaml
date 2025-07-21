@@ -1,0 +1,92 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-alert-rules
+  namespace: vpcp-app
+data:
+  alert-rules.yml: |
+    groups:
+    - name: cagent-autoscaling
+      rules:
+      - alert: CagentHPAScalingUp
+        expr: increase(kube_horizontalpodautoscaler_status_current_replicas[5m]) > 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Cagent HPA is scaling up"
+          description: "Cagent deployment is scaling up due to high load"
+
+      - alert: CagentHPAScalingDown
+        expr: decrease(kube_horizontalpodautoscaler_status_current_replicas[5m]) > 0
+        for: 1m
+        labels:
+          severity: info
+        annotations:
+          summary: "Cagent HPA is scaling down"
+          description: "Cagent deployment is scaling down due to low load"
+
+      - alert: CagentHighCPUUsage
+        expr: container_cpu_usage_seconds_total{container="cagent"} > 0.8
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Cagent high CPU usage"
+          description: "Cagent pod CPU usage is above 80%"
+
+      - alert: CagentHighMemoryUsage
+        expr: container_memory_usage_bytes{container="cagent"} / container_spec_memory_limit_bytes{container="cagent"} > 0.85
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Cagent high memory usage"
+          description: "Cagent pod memory usage is above 85%"
+
+      - alert: CagentPodStartupSlow
+        expr: time() - kube_pod_start_time{namespace="vpcp-app", pod=~"cagent.*"} > 180
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Cagent pod startup is slow"
+          description: "Cagent pod is taking more than 3 minutes to start"
+
+      - alert: CagentHighResponseTime
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{service="cagent"}[5m])) > 2
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Cagent high response time"
+          description: "95th percentile response time is above 2 seconds"
+
+      - alert: CagentHighErrorRate
+        expr: rate(http_requests_total{service="cagent", status=~"5.."}[5m]) / rate(http_requests_total{service="cagent"}[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Cagent high error rate"
+          description: "Error rate is above 5%"
+
+    - name: cluster-autoscaling
+      rules:
+      - alert: ClusterHighCPUUsage
+        expr: (sum(rate(container_cpu_usage_seconds_total{container!=""}[5m])) by (node)) / (sum(machine_cpu_cores) by (node)) > 0.8
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Cluster high CPU usage"
+          description: "Node CPU usage is above 80%"
+
+      - alert: ClusterHighMemoryUsage
+        expr: (sum(container_memory_usage_bytes{container!=""}) by (node)) / (sum(machine_memory_bytes) by (node)) > 0.85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Cluster high memory usage"
+          description: "Node memory usage is above 85%"

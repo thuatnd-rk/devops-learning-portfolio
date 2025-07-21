@@ -1,0 +1,13 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: cagent-pdb
+  namespace: vpcp-app
+  labels:
+    app: cagent
+    project: vpcp-c-agent
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: cagent 
