@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vpcp-ingress
+  namespace: vpcp-app
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-southeast-1:187091248012:certificate/e2fc0a1c-04eb-43d9-b235-cc3ee9f440a4
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+spec:
+  rules:
+  - host: cagent.learnaws.click
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: cagent-service
+            port:
+              number: 3000
+      - path: /api/s3
+        pathType: Prefix
+        backend:
+          service:
+            name: s3-explorer-service
+            port:
+              number: 3001

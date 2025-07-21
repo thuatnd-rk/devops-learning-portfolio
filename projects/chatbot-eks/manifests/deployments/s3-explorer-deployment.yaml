@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: s3-explorer
+  namespace: vpcp-app
+  labels:
+    app: s3-explorer
+    project: vpcp-c-agent
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: s3-explorer
+  template:
+    metadata:
+      labels:
+        app: s3-explorer
+    spec:
+      serviceAccountName: s3-explorer-sa
+      containers:
+      - name: s3-explorer
+        image: 187091248012.dkr.ecr.us-east-1.amazonaws.com/vpcp/s3:latest
+        ports:
+        - containerPort: 3001
+          name: http
+        envFrom:
+        - configMapRef:
+            name: s3-explorer-config
+        env:
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: database-secret
+              key: database-password
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: redis-secret
+              key: redis-password
+        resources:
+          requests:
+            cpu: 512m
+            memory: 2048Mi
+          limits:
+            cpu: 1024m
+            memory: 4096Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3001
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3001
+          initialDelaySeconds: 5
+          periodSeconds: 10
