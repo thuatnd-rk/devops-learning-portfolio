@@ -54,64 +54,6 @@ The system implements a sophisticated RAG pipeline:
 - Secure chat history management
 - Real-time streaming responses
 
-## Run it locally
-
-### Prerequisites
-
-- Python 3.12+
-- [uv](https://github.com/astral-sh/uv) - Fast Python package installer and resolver
-
-### Setup and Installation
-
-```sh
-# Initialize uv project (if not already done)
-uv init -p <python-version>
-
-# Create virtual environment
-uv venv
-
-# Activate virtual environment
-source .venv/bin/activate  # On Linux/Mac
-# or
-.venv\Scripts\activate     # On Windows
-
-# Install dependencies
-uv pip install -r requirements.txt
-
-# Run the application
-streamlit run Chatbot.py
-```
-
-### Alternative: Using uv run (no activation needed)
-
-```sh
-# Install dependencies and run in one command
-uv run streamlit run Chatbot.py
-```
-
-## AWS Bedrock Configuration
-
-This chatbot uses AWS Bedrock Agent with secure credential management. **No hardcoded AWS credentials needed!**
-
-### Security Setup
-
-The application uses AWS SDK's default credential chain, which automatically loads credentials from:
-- AWS CLI configuration
-- IAM Instance Profile (EC2/ECS)
-- Environment variables
-- AWS SSO
-
-### Required Configuration
-
-Create a `.env` file with only non-sensitive variables:
-
-```sh
-AWS_DEFAULT_REGION=ap-southeast-1
-AGENT_ID=your_bedrock_agent_id
-ALIAS_ID=your_bedrock_alias_id
-API_ENDPOINT_URL=your_api_endpoint_url
-```
-
 ## System Architecture
 
 ### Overview
@@ -232,3 +174,63 @@ The system implements automated deployment using GitHub Actions:
 - **CloudWatch Alarms**: Automated alerting based on thresholds
 - **Error Tracking**: Detailed error logging and analysis
 - **Performance Monitoring**: Response time and throughput tracking
+
+## Installation & Setup
+
+### Prerequisites
+
+- Python 3.12+
+- [uv](https://github.com/astral-sh/uv) - Fast Python package installer and resolver
+
+### Run it locally
+
+#### Setup and Installation
+
+```sh
+# Initialize uv project (if not already done)
+uv init -p <python-version>
+
+# Create virtual environment
+uv venv
+
+# Activate virtual environment
+source .venv/bin/activate  # On Linux/Mac
+# or
+.venv\Scripts\activate     # On Windows
+
+# Install dependencies
+uv pip install -r requirements.txt
+
+# Run the application
+streamlit run Chatbot.py
+```
+
+#### Alternative: Using uv run (no activation needed)
+
+```sh
+# Install dependencies and run in one command
+uv run streamlit run Chatbot.py
+```
+
+## AWS Bedrock Configuration
+
+This chatbot uses AWS Bedrock Agent with secure credential management. **No hardcoded AWS credentials needed!**
+
+### Security Setup
+
+The application uses AWS SDK's default credential chain, which automatically loads credentials from:
+- AWS CLI configuration
+- IAM Instance Profile (EC2/ECS)
+- Environment variables
+- AWS SSO
+
+### Required Configuration
+
+Create a `.env` file with only non-sensitive variables:
+
+```sh
+AWS_DEFAULT_REGION=ap-southeast-1
+AGENT_ID=your_bedrock_agent_id
+ALIAS_ID=your_bedrock_alias_id
+API_ENDPOINT_URL=your_api_endpoint_url
+```
