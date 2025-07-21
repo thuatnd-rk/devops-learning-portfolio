@@ -1,4 +1,4 @@
-# 🎈 Streamlit + LLM Examples App
+# 🎈 Streamlit + LLM Internal Chatbot
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?repo_name=streamlit/llm-examples&quickstart=1)
 
@@ -12,39 +12,47 @@ Starter examples for building LLM apps with Streamlit.
 
 ## Overview of the App
 
-This app showcases a growing collection of LLM minimum working examples.
+This application demonstrates a **Retrieval Augmented Generation (RAG)** chatbot system built for internal HR administrative support. The system leverages cutting-edge AI technologies to provide intelligent, context-aware responses based on company-specific documentation.
 
-Current examples include:
+### Key Technologies
 
-- Chatbot
-- File Q&A
-- Chat with Internet search
-- LangChain Quickstart
-- LangChain PromptTemplate
-- Chat with user feedback
+**AI/ML Stack:**
+- **AWS Bedrock Agent**: Core AI orchestration platform for managing conversations and knowledge retrieval
+- **Claude Sonnet 3.5**: Advanced language model for natural language understanding and response generation
+- **Cohere Multilingual Embeddings**: Vector embeddings for semantic search across multilingual documents
+- **Aurora PostgreSQL Vector Store**: High-performance vector database for storing and retrieving document embeddings
 
-## Demo App
+**Application Stack:**
+- **Streamlit**: Modern web interface for seamless user interactions
+- **AWS S3**: Document repository for HR policies, procedures, and administrative guidelines
+- **DynamoDB**: NoSQL database for chat history and session management
+- **ECS Fargate**: Containerized deployment for scalable application hosting
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://llm-examples.streamlit.app/)
+### RAG Architecture
 
-### Get an OpenAI API key
+The system implements a sophisticated RAG pipeline:
 
-You can get your own OpenAI API key by following the following instructions:
+1. **Document Ingestion**: HR documents uploaded to S3 are automatically processed and indexed
+2. **Vector Generation**: Cohere embeddings convert documents into high-dimensional vectors
+3. **Semantic Search**: User queries are embedded and matched against document vectors
+4. **Context Retrieval**: Most relevant document sections are retrieved from Aurora PostgreSQL
+5. **Response Generation**: Claude Sonnet 3.5 generates contextual responses using retrieved information
+6. **Safety Controls**: Bedrock Guardrails ensure responses remain within appropriate boundaries
 
-1. Go to https://platform.openai.com/account/api-keys.
-2. Click on the `+ Create new secret key` button.
-3. Next, enter an identifier name (optional) and click on the `Create secret key` button.
+### Use Cases
 
-### Enter the OpenAI API key in Streamlit Community Cloud
+- **HR Policy Queries**: Quick access to company policies, procedures, and guidelines
+- **Administrative Support**: Assistance with leave requests, benefits information, and onboarding
+- **Document Search**: Semantic search across internal HR documentation
+- **Multilingual Support**: Handling queries in multiple languages with Cohere's multilingual embeddings
 
-To set the OpenAI API key as an environment variable in Streamlit apps, do the following:
+### Current examples include:
 
-1. At the lower right corner, click on `< Manage app` then click on the vertical "..." followed by clicking on `Settings`.
-2. This brings the **App settings**, next click on the `Secrets` tab and paste the API key into the text box as follows:
-
-```sh
-OPENAI_API_KEY='xxxxxxxxxx'
-```
+- Chatbot with RAG capabilities
+- Document Q&A with semantic search
+- Multilingual support
+- Secure chat history management
+- Real-time streaming responses
 
 ## Run it locally
 
