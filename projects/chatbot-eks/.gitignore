@@ -1,0 +1,3 @@
+# Ignore Kubernetes configmaps and secrets (do not store sensitive data in git)
+/manifests/configmaps/*.yaml
+/manifests/secrets/*.yaml
