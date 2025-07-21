@@ -18,7 +18,7 @@ This application demonstrates a **Retrieval Augmented Generation (RAG)** chatbot
 
 **AI/ML Stack:**
 - **AWS Bedrock Agent**: Core AI orchestration platform for managing conversations and knowledge retrieval
-- **Claude Sonnet 3.5**: Advanced language model for natural language understanding and response generation
+- **Claude Sonnet 3.5**: Advanced language model for natural language understandinsg and response generation
 - **Cohere Multilingual Embeddings**: Vector embeddings for semantic search across multilingual documents
 - **Aurora PostgreSQL Vector Store**: High-performance vector database for storing and retrieving document embeddings
 
