@@ -1,0 +1,20 @@
+Guideline: https://docs.nginx.com/nginx-gateway-fabric/how-to/traffic-management/routing-traffic-to-your-app/
+Nginx Gateway Fabric Docs: https://docs.nginx.com/nginx-gateway-fabric/
+
+# Step 1
+Install GatewayAPI CRDs
+kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.0/standard-install.yaml
+
+# Step 2
+Install Gateway Controller
+helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric --create-namespace -n nginx-gateway
+
+# Step 3
+Create GatewayClass
+Done when install gateway controller successful
+
+# Step 4
+Deploy Nginx application
+
+# Step 5
+Create Gateway & HTTPRoute
