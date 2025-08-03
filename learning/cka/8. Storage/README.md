@@ -14,6 +14,51 @@ Phần này bao gồm các khái niệm về storage trong Kubernetes, bao gồm
   - secret
   - persistentVolumeClaim
 
+**Sự khác nhau giữa các Volume Types:**
+
+| Volume Type | Mục đích | Dữ liệu tồn tại | Sử dụng khi nào | Ví dụ sử dụng |
+|-------------|----------|-----------------|-----------------|---------------|
+| **emptyDir** | Temporary storage trong pod | Chỉ tồn tại khi pod còn sống | Cache, temporary files, shared data giữa containers | Cache, temp files, shared workspace |
+| **hostPath** | Mount directory từ host node | Tồn tại trên host, không phụ thuộc pod | Access host filesystem, debugging | Logs, config files, host data access |
+| **configMap** | Mount configuration data | Dữ liệu từ ConfigMap object | Application configuration | App config, environment variables |
+| **secret** | Mount sensitive data | Dữ liệu từ Secret object | Credentials, certificates | Passwords, API keys, TLS certs |
+| **persistentVolumeClaim** | Persistent storage | Tồn tại vĩnh viễn | Database, application data | Database storage, user uploads |
+
+**Chi tiết từng loại:**
+
+**emptyDir:**
+- Tạo directory trống khi pod start
+- Dữ liệu mất khi pod restart hoặc delete
+- Dùng cho cache, temporary files
+- Shared giữa containers trong cùng pod
+
+**hostPath:**
+- Mount directory từ host node vào pod
+- Dữ liệu tồn tại trên host node
+- Có thể access host filesystem
+- Dùng cho logs, debugging, host data access
+- **Lưu ý:** Không portable, phụ thuộc host node
+
+**configMap:**
+- Mount configuration data từ ConfigMap
+- Read-only, không thể modify
+- Dùng cho application configuration
+- Có thể mount toàn bộ ConfigMap hoặc từng key
+
+**secret:**
+- Mount sensitive data từ Secret object
+- Encrypted at rest
+- Read-only, không thể modify
+- Dùng cho credentials, certificates
+- Base64 encoded data
+
+**persistentVolumeClaim:**
+- Request persistent storage từ cluster
+- Dữ liệu tồn tại vĩnh viễn
+- Có thể shared giữa pods
+- Dùng cho database, application data
+- Support dynamic provisioning
+
 **emptyDir Volume:**
 ```yaml
 apiVersion: v1
@@ -97,6 +142,177 @@ spec:
   - ReadWriteOnce (RWO)
   - ReadOnlyMany (ROM)
   - ReadWriteMany (RWM)
+
+**Chi tiết Access Modes:**
+
+| Access Mode | Mô tả | Sử dụng khi nào | Ví dụ sử dụng |
+|-------------|-------|-----------------|---------------|
+| **ReadWriteOnce (RWO)** | Volume có thể được mount read-write bởi một node | Single pod access | Database storage, application data |
+| **ReadOnlyMany (ROM)** | Volume có thể được mount read-only bởi nhiều nodes | Shared read-only data | Configuration files, static content |
+| **ReadWriteMany (RWM)** | Volume có thể được mount read-write bởi nhiều nodes | Shared read-write data | Shared file systems, collaborative apps |
+
+**Ví dụ cụ thể cho từng Access Mode:**
+
+**ReadWriteOnce (RWO) - Database Storage:**
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: fast-ssd
+  hostPath:
+    path: /mnt/data/mysql
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: fast-ssd
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        volumeMounts:
+        - name: mysql-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc
+```
+
+**ReadOnlyMany (ROM) - Shared Configuration:**
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: config-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadOnlyMany
+  storageClassName: standard
+  hostPath:
+    path: /mnt/config
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: config-pvc
+spec:
+  accessModes:
+    - ReadOnlyMany
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web-app
+  template:
+    metadata:
+      labels:
+        app: web-app
+    spec:
+      containers:
+      - name: web-app
+        image: nginx:latest
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/nginx/conf.d
+          readOnly: true
+      volumes:
+      - name: config-volume
+        persistentVolumeClaim:
+          claimName: config-pvc
+```
+
+**ReadWriteMany (RWM) - Shared File System:**
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: shared-pv
+spec:
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nfs-storage
+  nfs:
+    server: nfs-server.example.com
+    path: /shared/data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shared-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nfs-storage
+  resources:
+    requests:
+      storage: 100Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: file-upload-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: file-upload
+  template:
+    metadata:
+      labels:
+        app: file-upload
+    spec:
+      containers:
+      - name: file-upload
+        image: nginx:latest
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /var/www/uploads
+      volumes:
+      - name: shared-storage
+        persistentVolumeClaim:
+          claimName: shared-pvc
+```
 
 **Persistent Volume:**
 ```yaml
