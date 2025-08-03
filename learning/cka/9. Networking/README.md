@@ -16,7 +16,7 @@ Phần này bao gồm các khái niệm về networking trong Kubernetes, bao g�
 - Nodes có thể communicate với tất cả pods
 - Pods có thể communicate với tất cả nodes
 
-### 2. Services
+### 2. Services 
 - **Services:** Expose applications running on pods
 - **Service Types:**
   - ClusterIP (default)

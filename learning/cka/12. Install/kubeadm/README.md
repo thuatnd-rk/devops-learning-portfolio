@@ -125,7 +125,24 @@ sudo swapoff -a
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 ```
 
-### 2.4 Cài đặt containerd
+### 2.4 Cấu hình network cho Kubernetes
+```bash
+# Load kernel modules
+sudo modprobe overlay
+sudo modprobe br_netfilter
+
+# Cấu hình sysctl
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+
+# Apply sysctl changes
+sudo sysctl --system
+```
+
+### 2.5 Cài đặt containerd
 ```bash
 # Cài đặt dependencies
 sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
@@ -225,7 +242,17 @@ sudo apt update && sudo apt upgrade -y
 sudo swapoff -a
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
-# Cài đặt containerd (tương tự bước 2.4)
+# Cấu hình network cho Kubernetes (tương tự bước 2.4)
+sudo modprobe overlay
+sudo modprobe br_netfilter
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+sudo sysctl --system
+
+# Cài đặt containerd (tương tự bước 2.5)
 sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null

@@ -31,6 +31,22 @@ echo "Tắt swap..."
 sudo swapoff -a
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
+# Cấu hình network cho Kubernetes
+echo "Cấu hình network..."
+# Load kernel modules
+sudo modprobe overlay
+sudo modprobe br_netfilter
+
+# Cấu hình sysctl
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+
+# Apply sysctl changes
+sudo sysctl --system
+
 # Cài đặt dependencies
 echo "Cài đặt dependencies..."
 sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
