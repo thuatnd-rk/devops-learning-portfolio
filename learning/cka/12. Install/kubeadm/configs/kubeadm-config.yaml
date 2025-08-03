@@ -1,0 +1,65 @@
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: "192.168.1.10"  # Thay đổi IP của master node
+  bindPort: 6443
+nodeRegistration:
+  criSocket: "unix:///run/containerd/containerd.sock"
+  taints: []
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+kubernetesVersion: "v1.28.0"
+controlPlaneEndpoint: "192.168.1.10:6443"  # Thay đổi IP của master node
+networking:
+  podSubnet: "10.244.0.0/16"
+  serviceSubnet: "10.96.0.0/12"
+  dnsDomain: "cluster.local"
+apiServer:
+  certSANs:
+  - "192.168.1.10"  # Thay đổi IP của master node
+  - "kubernetes"
+  - "kubernetes.default"
+  - "kubernetes.default.svc"
+  - "kubernetes.default.svc.cluster.local"
+  - "localhost"
+  - "127.0.0.1"
+  extraArgs:
+    authorization-mode: "Node,RBAC"
+    audit-log-path: "/var/log/audit.log"
+    audit-log-maxage: "30"
+    audit-log-maxbackup: "10"
+    audit-log-maxsize: "100"
+controllerManager:
+  extraArgs:
+    node-cidr-mask-size: "24"
+    allocate-node-cidrs: "true"
+scheduler:
+  extraArgs: {}
+etcd:
+  local:
+    dataDir: "/var/lib/etcd"
+    imageRepository: "registry.k8s.io"
+    imageTag: "3.5.7-0"
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+cgroupDriver: "systemd"
+containerRuntimeEndpoint: "unix:///run/containerd/containerd.sock"
+failSwapOn: false
+authentication:
+  anonymous:
+    enabled: false
+  webhook:
+    enabled: true
+  x509:
+    clientCAFile: "/etc/kubernetes/pki/ca.crt"
+authorization:
+  mode: "Webhook"
+clusterDomain: "cluster.local"
+clusterDNS:
+- "10.96.0.10"
+runtimeRequestTimeout: "15m"
+tlsCertFile: "/var/lib/kubelet/pki/kubelet.crt"
+tlsPrivateKeyFile: "/var/lib/kubelet/pki/kubelet.key"
+serverTLSBootstrap: true 
