@@ -24,6 +24,115 @@ Phần này bao gồm các khái niệm về networking trong Kubernetes, bao g�
   - LoadBalancer
   - ExternalName
 
+**Sự khác biệt giữa các Service Types:**
+
+| Service Type | Mục đích | Access Level | IP Address | Port | Sử dụng khi nào | Ví dụ sử dụng |
+|--------------|----------|--------------|------------|------|-----------------|---------------|
+| **ClusterIP** | Internal cluster communication | Cluster internal only | Virtual IP trong cluster | Service port | Internal services, microservices | Database, internal APIs |
+| **NodePort** | External access qua node IP | External via node IP | Node IP | Node port (30000-32767) | Development, testing | Dev environments, quick external access |
+| **LoadBalancer** | External access với load balancer | External via load balancer | Load balancer IP | Service port | Production, cloud environments | Production apps, cloud-native |
+| **ExternalName** | DNS alias cho external service | External service | N/A | N/A | Service discovery cho external services | External APIs, third-party services |
+
+**Chi tiết từng Service Type:**
+
+**ClusterIP (Default):**
+- Chỉ accessible từ bên trong cluster
+- Virtual IP được assign bởi Kubernetes
+- Dùng cho internal communication giữa services
+- Không expose ra external network
+- **Use cases:** Database services, internal APIs, microservices communication
+
+**NodePort:**
+- Expose service qua node IP và port
+- Port range: 30000-32767 (có thể customize)
+- Accessible từ external network qua node IP
+- Không cần load balancer
+- **Use cases:** Development, testing, quick external access
+- **Limitations:** Port conflicts, limited scalability
+
+**LoadBalancer:**
+- Expose service qua cloud load balancer
+- Automatically provision load balancer (cloud providers)
+- Best cho production environments
+- Support health checks, SSL termination
+- **Use cases:** Production applications, high availability
+- **Requirements:** Cloud provider support
+
+**ExternalName:**
+- DNS alias cho external service
+- Không tạo endpoints
+- Chỉ thay đổi DNS resolution
+- **Use cases:** External APIs, third-party services
+- **Example:** Point to external database, API gateway
+
+**So sánh Access Patterns:**
+
+| Access Pattern | ClusterIP | NodePort | LoadBalancer | ExternalName |
+|----------------|-----------|----------|--------------|--------------|
+| **Internal Cluster** | ✅ | ✅ | ✅ | ❌ |
+| **External via Node IP** | ❌ | ✅ | ✅ | ❌ |
+| **External via Load Balancer** | ❌ | ❌ | ✅ | ❌ |
+| **DNS Alias** | ❌ | ❌ | ❌ | ✅ |
+
+**Ví dụ thực tế:**
+
+**ClusterIP - Internal Database:**
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+spec:
+  type: ClusterIP
+  selector:
+    app: mysql
+  ports:
+  - port: 3306
+    targetPort: 3306
+```
+
+**NodePort - Development Environment:**
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-app-service
+spec:
+  type: NodePort
+  selector:
+    app: web-app
+  ports:
+  - port: 80
+    targetPort: 8080
+    nodePort: 30080
+```
+
+**LoadBalancer - Production Application:**
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: production-app-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: production-app
+  ports:
+  - port: 80
+    targetPort: 8080
+```
+
+**ExternalName - External API:**
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-api-service
+spec:
+  type: ExternalName
+  externalName: api.external-service.com
+```
+
 **ClusterIP Service:**
 ```yaml
 apiVersion: v1
