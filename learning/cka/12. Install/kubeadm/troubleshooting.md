@@ -2,6 +2,36 @@
 
 ## Các vấn đề thường gặp và cách khắc phục
 
+### 0. Preflight checks failed
+
+**Triệu chứng:**
+```bash
+error execution phase preflight: [preflight] Some fatal errors occurred:
+        [ERROR FileContent--proc-sys-net-bridge-bridge-nf-call-iptables]: /proc/sys/net/bridge/bridge-nf-call-iptables does not exist
+        [ERROR FileContent--proc-sys-net-ipv4-ip_forward]: /proc/sys/net/ipv4/ip_forward contents are not set to 1
+```
+
+**Cách khắc phục:**
+```bash
+# Load kernel modules
+sudo modprobe overlay
+sudo modprobe br_netfilter
+
+# Cấu hình sysctl
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+
+# Apply sysctl changes
+sudo sysctl --system
+
+# Hoặc chạy script fix
+chmod +x fix-network-config.sh
+./fix-network-config.sh
+```
+
 ### 1. Node không Ready
 
 **Triệu chứng:**
