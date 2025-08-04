@@ -1,0 +1,16 @@
+apiVersion: v2
+name: simple-webapp
+description: A simple web application for Helm practice
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+keywords:
+  - webapp
+  - practice
+  - helm
+home: https://github.com/example/simple-webapp
+sources:
+  - https://github.com/example/simple-webapp
+maintainers:
+  - name: Your Name
+    email: your.email@example.com 
