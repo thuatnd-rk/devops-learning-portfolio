@@ -211,7 +211,7 @@ Kubernetes core components **do not include** a network implementation. After cl
 #### Option 1: Flannel (recommended for beginners)
 ```bash
 # Download Flannel manifest
-curl -O https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+wget https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
 
 # Edit the manifest to ensure pod network CIDR matches (10.244.0.0/16)
 # Apply the manifest
