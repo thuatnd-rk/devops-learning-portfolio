@@ -23,15 +23,24 @@ sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
 # Load required kernel modules
 cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
-overlay
-br_netfilter
+overlay          # Container filesystem support
+br_netfilter    # Bridge networking + iptables support
 EOF
 
-sudo modprobe overlay
-sudo modprobe br_netfilter
+sudo modprobe overlay      # Load overlay module immediately
+sudo modprobe br_netfilter # Load br_netfilter module immediately
 ```
 
 ## 2. Install kubeadm (setup all nodes)
+
+**What is kubeadm?**
+- **kubeadm** is the official Kubernetes tool for bootstrapping a cluster
+- **Purpose**: Automate the installation and configuration of Kubernetes clusters
+- **Functions**: 
+  - Initialize control plane node (master)
+  - Join worker nodes to the cluster
+  - Configure certificates, networking, and components
+  - Generate kubeconfig files
 
 **Reference**: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 
@@ -72,6 +81,17 @@ kubelet --version
 
 **Reference**: https://kubernetes.io/docs/setup/production-environment/container-runtimes/
 
+**Why Container Runtime?**
+- **Container Runtime** is required to run containers (pods) on Kubernetes nodes
+- **Kubernetes** doesn't run containers directly - it delegates to a container runtime
+- **containerd** is the recommended runtime (lightweight, stable, CNCF project)
+
+**What is systemd cgroup driver?**
+- **cgroups** (control groups) manage resource allocation for processes
+- **systemd cgroup driver** ensures Kubernetes and systemd use the same cgroup hierarchy
+- **Required** for proper resource management and monitoring
+- **Prevents conflicts** between systemd and Kubernetes resource tracking
+
 ### Install containerd
 ```bash
 sudo apt update
@@ -93,6 +113,23 @@ sudo sysctl --system
 # Verify that net.ipv4.ip_forward is set to 1
 sysctl net.ipv4.ip_forward
 ```
+
+**Network Configuration Parameters Explained:**
+
+1. **`net.ipv4.ip_forward = 1`**
+   - **Purpose**: Enables IP packet forwarding between network interfaces
+   - **Why needed**: Kubernetes pods on different nodes need to communicate
+   - **Impact**: Allows traffic routing between pods across nodes
+
+2. **`net.bridge.bridge-nf-call-iptables = 1`**
+   - **Purpose**: Enables iptables rules to work on bridge interfaces
+   - **Why needed**: kube-proxy creates iptables rules for service networking
+   - **Impact**: Services and network policies can function properly
+
+3. **`net.bridge.bridge-nf-call-ip6tables = 1`**
+   - **Purpose**: Same as above but for IPv6 (dual-stack support)
+   - **Why needed**: Future-proofing for IPv6 networking
+   - **Impact**: Ensures compatibility with IPv6-enabled clusters
 
 ### Configure containerd with systemd cgroup driver
 ```bash
@@ -153,6 +190,21 @@ kubectl get nodes
 ```
 
 ### Install Network Addon
+
+**Why Network Addon is Required?**
+
+Kubernetes core components **do not include** a network implementation. After cluster initialization, pods cannot communicate with each other because:
+
+1. **No Pod-to-Pod Communication**: Pods on different nodes cannot reach each other
+2. **No Service Networking**: Services cannot route traffic between pods
+3. **No Network Policies**: Cannot implement network security rules
+4. **Cluster Not Functional**: Applications cannot communicate internally
+
+**What Network Addon Provides:**
+- **Pod Networking**: Enables communication between pods across nodes
+- **Service Discovery**: Allows services to find and route to pods
+- **Network Policies**: Implements network security and isolation
+- **Load Balancing**: Distributes traffic across multiple pods
 
 **Reference**: https://kubernetes.io/docs/concepts/cluster-administration/addons/#networking-and-network-policy
 
