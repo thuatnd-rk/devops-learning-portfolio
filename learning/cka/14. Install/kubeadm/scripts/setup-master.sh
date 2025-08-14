@@ -2,6 +2,7 @@
 
 # Kubernetes Master Node Setup Script
 # Usage: ./setup-master.sh <MASTER_IP> <POD_NETWORK_CIDR> <KUBERNETES_VERSION>
+./setup-master.sh 10.0.8.129 10.244.0.0/16 v1.33.0
 
 set -e  # Exit on any error
 
@@ -154,7 +155,7 @@ run_command "kubectl get nodes" "Node status"
 
 # Install Flannel network addon
 print_status "Installing Flannel network addon..."
-run_command "curl -O https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml" "Download Flannel manifest"
+run_command "wget https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml" "Download Flannel manifest"
 run_command "kubectl apply -f kube-flannel.yml" "Apply Flannel manifest"
 
 # Wait for Flannel pods to be ready
