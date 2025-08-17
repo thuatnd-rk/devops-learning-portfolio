@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config
+  namespace: chatbot
+  labels:
+    app: redis
+    component: cache
+    environment: production
+    team: devops
+data:
+  redis.conf: |
+    # Redis configuration for chatbot application
+    maxmemory 256mb
+    maxmemory-policy allkeys-lru
+    save 900 1
+    save 300 10
+    save 60 10000
+    appendonly yes
+    appendfsync everysec
+    timeout 0
+    tcp-keepalive 300
+    loglevel notice
