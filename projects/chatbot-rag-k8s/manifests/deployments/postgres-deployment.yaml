@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: chatbot
+  labels:
+    app: postgres
+    component: database
+    environment: production
+    team: devops
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+      component: database
+  template:
+    metadata:
+      labels:
+        app: postgres
+        component: database
+        environment: production
+        team: devops
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: postgres_password
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: postgres_username
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: postgres_database
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          volumeMounts:
+            - name: postgres-config
+              mountPath: /etc/postgresql/postgresql.conf
+              subPath: postgresql.conf
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+            - name: postgres-logs
+              mountPath: /var/log/postgresql
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          livenessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - "$(POSTGRES_USER)"
+                - -d
+                - "$(POSTGRES_DB)"
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - "$(POSTGRES_USER)"
+                - -d
+                - "$(POSTGRES_DB)"
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+          command:
+            - "postgres"
+            - "-c"
+            - "config_file=/etc/postgresql/postgresql.conf"
+      volumes:
+        - name: postgres-config
+          configMap:
+            name: postgres-config
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+        - name: postgres-logs
+          emptyDir: {}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+        fsGroup: 999
