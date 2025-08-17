@@ -50,6 +50,7 @@ devops-learning-portfolio/
 ├── projects/                    # Real-world projects
 │   ├── cagent-eks/             # CAgent EKS deployment
 │   ├── monitoring-stack/        # Prometheus/Grafana setup
+│   ├── chatbot-rag-k8s/        # Chatbot RAG Kubernetes deployment
 │   └── infrastructure-demos/    # Terraform/Helm examples
 ├── learning/                    # Study materials
 │   ├── cka-preparation/         # CKA certification prep
@@ -67,7 +68,17 @@ devops-learning-portfolio/
 
 ## 🏆 Featured Projects
 
-### **1. CAgent EKS Deployment**
+### **1. Chatbot RAG Kubernetes Deployment**
+- **Description**: Intelligent chatbot system with RAG capabilities deployed on Kubernetes
+- **Technologies**: Kubernetes, External Secrets Operator, AWS Secrets Manager, PostgreSQL, Redis
+- **Key Features**:
+  - External Secrets Operator integration with AWS Secrets Manager
+  - Secure secrets management without hardcoding credentials
+  - Microservices architecture with Redis and PostgreSQL
+  - Local storage configuration for database persistence
+  - Comprehensive monitoring and security setup
+
+### **2. CAgent EKS Deployment**
 - **Description**: Production-ready microservices deployment on AWS EKS
 - **Technologies**: Kubernetes, AWS EKS, Terraform, Helm, Prometheus, Grafana
 - **Key Achievements**:
@@ -211,9 +222,7 @@ See [ROADMAP.md](./ROADMAP.md) for detailed learning path and goals.
 - **Skills Matrix**: See [resources/skills-matrix.md](./resources/skills-matrix.md)
 - **Certification Status**: See [certifications/](./certifications/) directory
 
-## 🤝 Contributing
 
-This portfolio is a personal learning journey, but contributions and suggestions are welcome! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ## 📞 Contact
 
@@ -221,9 +230,7 @@ This portfolio is a personal learning journey, but contributions and suggestions
 - **Email**: thuatnguyen1011@gmail.com
 - **GitHub**: [https://github.com/thuatnd-rk](https://github.com/thuatnd-rk)
 
-## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
