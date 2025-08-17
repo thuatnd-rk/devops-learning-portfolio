@@ -10,8 +10,8 @@ Hi, I'm a DevOps Engineer with a passion for cloud-native technologies and autom
 
 ## 🎯 Current Focus Areas
 
-- **AWS Solutions Architect Professional** (SAP C02 - August 2024)
-- **Kubernetes Administration** (CKA - December 2024)
+- **AWS Solutions Architect Professional** (SAP C02 - August 2025)
+- **Kubernetes Administration** (CKA - December 2025)
 - **Infrastructure as Code** (Terraform, CloudFormation)
 - **GitOps & CI/CD** (ArgoCD, Flux, GitHub Actions, Jenkins)
 - **Monitoring & Observability** (Prometheus, Grafana, Jaeger)
@@ -110,9 +110,9 @@ devops-learning-portfolio/
 - [x] **Kubernetes Basics** - Pods, Services, Deployments
 - [x] **Infrastructure as Code** - Terraform, CloudFormation
 - [x] **Monitoring Setup** - Prometheus, Grafana
-- [ ] **AWS Solutions Architect Professional** - In Progress (August 2024)
-- [ ] **CKA Certification** - In Progress (December 2024)
-- [ ] **GitOps & CI/CD** - Not Started (January 2025)
+- [ ] **AWS Solutions Architect Professional** - In Progress (August 2025)
+- [ ] **CKA Certification** - In Progress (December 2025)
+- [ ] **GitOps & CI/CD** - Not Started (January 2026)
 - [ ] **Advanced Kubernetes** - Service Mesh, Operators
 - [ ] **Linux System Administration** - In Progress
 
@@ -134,8 +134,8 @@ See [ROADMAP.md](./ROADMAP.md) for detailed learning path and goals.
 ## 🎯 Career Goals
 
 ### **Short Term (6 months)**
-- [ ] Obtain SAP C02 certification (August 2024)
-- [ ] Complete CKA certification (December 2024)
+- [ ] Obtain SAP C02 certification (August 2025)
+- [ ] Complete CKA certification (December 2025)
 - [ ] Master GitOps and CI/CD practices
 - [ ] Master advanced Kubernetes concepts
 - [ ] Build comprehensive monitoring solutions
@@ -227,6 +227,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Last Updated**: December 2024  
+**Last Updated**: December 2025  
 **Status**: Active Learning & Development  
 **Next Milestone**: CKA Certification Preparation
