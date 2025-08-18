@@ -1,0 +1,55 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['alertmanager:9093']
+
+rule_files:
+  - "/etc/prometheus/alerts/general.rules.yml"
+  - "/etc/prometheus/alerts/log.rules.yml"
+  - "/etc/prometheus/alerts/service.rules.yml"
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['10.0.1.15:9100'] # fix lấy động phần này
+  - job_name: 'fluent-bit'
+    static_configs:
+      - targets: ['fluent-bit:2020']
+    metrics_path: '/api/v1/metrics/prometheus'
+    scrape_interval: 30s
+    honor_labels: true
+  # Health check cho services
+  - job_name: 'service-health'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - http://dev-env_cagent-flowise-1:3000 # cagent-backend
+        - http://dev-env_s3-explorer-s3-explorer-api-1:3001  # s3-explorer
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+      # Override instance label với tên ngắn gọn
+      - source_labels: [__param_target]
+        regex: 'http://dev-env_cagent-flowise-1:3000'
+        replacement: 'cagent-backend'
+        target_label: instance
+      - source_labels: [__param_target]
+        regex: 'http://dev-env_s3-explorer-s3-explorer-api-1:3001'
+        replacement: 's3-explorer'
+        target_label: instance

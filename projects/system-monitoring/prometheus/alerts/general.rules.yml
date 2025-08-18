@@ -1,0 +1,19 @@
+groups:
+- name: system.rules
+  rules:
+  - alert: HighCPUUsage
+    expr: avg(rate(container_cpu_usage_seconds_total[5m])) by (container_label_com_docker_swarm_service_name) > 0.8
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High CPU usage detected"
+      description: "Container {{ $labels.container_label_com_docker_swarm_service_name }} is using high CPU."
+  - alert: ContainerDown
+    expr: up == 0
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Container down detected"
+      description: "A container is down for more than 2 minutes." 

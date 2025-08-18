@@ -1,0 +1,216 @@
+{
+    "id": null,
+    "title": "Host Overview Dashboard",
+    "tags": ["host", "overview", "system", "monitoring"],
+    "style": "dark",
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Host Overview",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "count(node_cpu_seconds_total{mode=\"idle\"})",
+            "legendFormat": "CPU Cores",
+            "refId": "A"
+          },
+          {
+            "expr": "node_memory_MemTotal_bytes / 1024 / 1024 / 1024",
+            "legendFormat": "Total RAM (GB)",
+            "refId": "B"
+          },
+          {
+            "expr": "node_filesystem_size_bytes{mountpoint=\"/\"} / 1024 / 1024 / 1024",
+            "legendFormat": "Root Disk (GB)",
+            "refId": "C"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short",
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": null}
+              ]
+            }
+          }
+        },
+        "gridPos": {"h": 4, "w": 24, "x": 0, "y": 0}
+      },
+      {
+        "id": 2,
+        "title": "CPU Usage by Core",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "100 - (irate(node_cpu_seconds_total{mode=\"idle\"}[5m]) * 100)",
+            "legendFormat": "CPU {{cpu}}",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "min": 0,
+            "max": 100,
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": null},
+                {"color": "yellow", "value": 70},
+                {"color": "red", "value": 90}
+              ]
+            }
+          }
+        },
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 4}
+      },
+      {
+        "id": 3,
+        "title": "Memory Usage",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "(node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes)",
+            "legendFormat": "Used Memory (GB)",
+            "refId": "A"
+          },
+          {
+            "expr": "node_memory_MemTotal_bytes",
+            "legendFormat": "Total Memory (GB)",
+            "refId": "B"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "bytes",
+            "unitScale": "GB"
+          }
+        },
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8}
+      },
+      {
+        "id": 4,
+        "title": "Root Disk Usage",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "(node_filesystem_size_bytes{mountpoint=\"/\"} - node_filesystem_free_bytes{mountpoint=\"/\"})",
+            "legendFormat": "Used Disk (GB)",
+            "refId": "A"
+          },
+          {
+            "expr": "node_filesystem_size_bytes{mountpoint=\"/\"}",
+            "legendFormat": "Total Disk (GB)",
+            "refId": "B"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "bytes",
+            "unitScale": "GB"
+          }
+        },
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8}
+      },
+      {
+        "id": 5,
+        "title": "Memory Usage Percentage",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "((node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes) * 100",
+            "legendFormat": "Memory Usage %",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "min": 0,
+            "max": 100,
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": null},
+                {"color": "yellow", "value": 70},
+                {"color": "red", "value": 90}
+              ]
+            }
+          }
+        },
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16}
+      },
+      {
+        "id": 6,
+        "title": "Root Disk Usage Percentage",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "((node_filesystem_size_bytes{mountpoint=\"/\"} - node_filesystem_free_bytes{mountpoint=\"/\"}) / node_filesystem_size_bytes{mountpoint=\"/\"}) * 100",
+            "legendFormat": "Disk Usage %",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "min": 0,
+            "max": 100,
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": null},
+                {"color": "yellow", "value": 70},
+                {"color": "red", "value": 90}
+              ]
+            }
+          }
+        },
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16}
+      },
+      {
+        "id": 7,
+        "title": "CPU Details by Mode",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "irate(node_cpu_seconds_total{mode=\"user\"}[5m]) * 100",
+            "legendFormat": "{{cpu}} - User",
+            "refId": "A"
+          },
+          {
+            "expr": "irate(node_cpu_seconds_total{mode=\"system\"}[5m]) * 100",
+            "legendFormat": "{{cpu}} - System",
+            "refId": "B"
+          },
+          {
+            "expr": "irate(node_cpu_seconds_total{mode=\"iowait\"}[5m]) * 100",
+            "legendFormat": "{{cpu}} - IOWait",
+            "refId": "C"
+          },
+          {
+            "expr": "irate(node_cpu_seconds_total{mode=\"idle\"}[5m]) * 100",
+            "legendFormat": "{{cpu}} - Idle",
+            "refId": "D"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "min": 0,
+            "max": 100
+          }
+        },
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 28}
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "30s",
+    "schemaVersion": 27,
+    "version": 1
+  }
