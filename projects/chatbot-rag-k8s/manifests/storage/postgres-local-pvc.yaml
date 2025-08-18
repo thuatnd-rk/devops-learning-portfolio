@@ -1,3 +1,5 @@
+# PersistentVolumeClaim (PVC) này dùng để yêu cầu một vùng lưu trữ (10Gi) từ PersistentVolume (PV) local,
+# giúp PostgreSQL lưu dữ liệu bền vững trên ổ đĩa node, đảm bảo dữ liệu không mất khi pod bị xóa hoặc khởi động lại.
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:

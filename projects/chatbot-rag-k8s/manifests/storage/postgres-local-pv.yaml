@@ -1,3 +1,7 @@
+# PersistentVolume (PV) này định nghĩa một vùng lưu trữ vật lý trên node (local storage) để sử dụng cho PostgreSQL.
+# PV này sử dụng storage class "local-storage", trỏ tới thư mục /mnt/data/postgres trên node cụ thể (theo nodeAffinity).
+# Khi kết hợp với PersistentVolumeClaim, dữ liệu database sẽ được lưu bền vững trên ổ đĩa local của node, không bị mất khi pod bị xóa hoặc khởi động lại.
+
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -23,4 +27,4 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - ip-10-0-8-129  # Thay đổi thành tên node của bạn
+          - ip-10-0-8-224  # Thay đổi thành tên node của bạn

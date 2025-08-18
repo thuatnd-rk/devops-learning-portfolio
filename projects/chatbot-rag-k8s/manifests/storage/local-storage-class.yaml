@@ -1,3 +1,12 @@
+# Storage Class là một đối tượng trong Kubernetes để quản lý các loại storage khác nhau.
+# Nó được sử dụng để định nghĩa các loại storage khác nhau và cách sử dụng chúng.
+# Ví dụ: storage class gp2 là một loại storage được sử dụng để lưu trữ dữ liệu trên AWS EBS.
+# Storage class local-storage là một loại storage được sử dụng để lưu trữ dữ liệu trên local storage.
+# Storage class gp2 và local-storage là 2 loại storage khác nhau.
+# Storage class gp2 được sử dụng để lưu trữ dữ liệu trên AWS EBS.
+# Storage class local-storage được sử dụng để lưu trữ dữ liệu trên local storage.
+# Storage class gp2 và local-storage là 2 loại storage khác nhau.
+
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -5,5 +14,5 @@ metadata:
   annotations:
     storageclass.kubernetes.io/is-default-class: "false"
 provisioner: kubernetes.io/no-provisioner
-volumeBindingMode: WaitForFirstConsumer
+volumeBindingMode: Immediate
 reclaimPolicy: Retain

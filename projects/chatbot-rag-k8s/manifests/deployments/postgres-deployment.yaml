@@ -44,7 +44,7 @@ spec:
                   name: postgres-secret
                   key: postgres_database
             - name: PGDATA
-              value: /var/lib/postgresql/data/pgdata
+              value: /var/lib/postgresql/data
           volumeMounts:
             - name: postgres-config
               mountPath: /etc/postgresql/postgresql.conf
@@ -61,30 +61,21 @@ spec:
               memory: "1Gi"
               cpu: "1000m"
           livenessProbe:
-            exec:
-              command:
-                - pg_isready
-                - -U
-                - "$(POSTGRES_USER)"
-                - -d
-                - "$(POSTGRES_DB)"
+            tcpSocket:                  # ✅ TCP probe cho liveness
+              port: 5432
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            timeoutSeconds: 10
+            failureThreshold: 5
+          readinessProbe:
+            tcpSocket:                  # ✅ TCP probe cho readiness
+              port: 5432
             initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 5
-            failureThreshold: 3
-          readinessProbe:
-            exec:
-              command:
-                - pg_isready
-                - -U
-                - "$(POSTGRES_USER)"
-                - -d
-                - "$(POSTGRES_DB)"
-            initialDelaySeconds: 5
-            periodSeconds: 5
-            timeoutSeconds: 3
-            failureThreshold: 3
-          command:
+            failureThreshold: 5
+          command:                      # ✅ Command để start PostgreSQL
+            - "docker-entrypoint.sh"
             - "postgres"
             - "-c"
             - "config_file=/etc/postgresql/postgresql.conf"
@@ -94,10 +85,11 @@ spec:
             name: postgres-config
         - name: postgres-data
           persistentVolumeClaim:
-            claimName: postgres-pvc
+            claimName: postgres-local-pvc
         - name: postgres-logs
           emptyDir: {}
       securityContext:
         runAsNonRoot: true
         runAsUser: 999
+        runAsGroup: 999
         fsGroup: 999
