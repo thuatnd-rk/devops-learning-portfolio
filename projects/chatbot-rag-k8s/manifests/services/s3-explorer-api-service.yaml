@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: s3-explorer-api
+  namespace: chatbot
+  labels:
+    app: s3-explorer-api
+    component: api
+    environment: production
+    team: devops
+spec:
+  type: ClusterIP
+  selector:
+    app: s3-explorer-api
+    component: api
+  ports:
+    - name: http
+      port: 3001
+      targetPort: 3001
+      protocol: TCP
+
+
