@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cagent-backend
+  namespace: chatbot
+  labels:
+    app: cagent-backend
+    component: backend
+    environment: production
+    team: devops
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cagent-backend
+      component: backend
+  template:
+    metadata:
+      labels:
+        app: cagent-backend
+        component: backend
+        environment: production
+        team: devops
+    spec:
+      imagePullSecrets:
+        - name: ecr-secret
+      containers:
+        - name: cagent-backend
+          image: 187091248012.dkr.ecr.us-east-1.amazonaws.com/pvi/cagent:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: CORS_ORIGINS
+              value: "*"
+            - name: IFRAME_ORIGINS
+              value: "*"
+            - name: DATABASE_TYPE
+              value: "postgres"
+            - name: DATABASE_PORT
+              value: "5432"
+            - name: DATABASE_HOST
+              value: "postgres"
+            - name: DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: postgres_database
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: postgres_username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: postgres_password
+            - name: FLOWISE_SECRETKEY_OVERWRITE
+              value: "myencryptionkey"
+            - name: FLOWISE_FILE_SIZE_LIMIT
+              value: "256mb"
+            - name: STORAGE_TYPE
+              value: "local"
+            - name: APIKEY_STORAGE_TYPE
+              value: "db"
+            - name: VITE_DOCUMENT_STORE_TYPE
+              value: "s3"
+            - name: VITE_DOCUMENT_STORE_BASE_URL
+              value: "http://s3-explorer-api.chatbot.svc.cluster.local:3001"
+            - name: LOGIN_TYPE
+              value: "token"
+            - name: ACCESS_TOKEN_SECRET
+              value: "3d0f3b54d4f212522429e7d2b88486e6f6a7b76d4e03f6f69b0f4d913f0bc29d1f6f0a89d7c45d2f3f2d6c2f0a89d7c45d2f3f2d6c2f0a89d7c45d2f3f2d6c2"
+            - name: REFRESH_TOKEN_SECRET
+              value: "9a8f7e6d5c4b3a2918273645564738291a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f3g4h5i6j7k8l9m0n1o2p3q4r5s6t"
+            - name: MEILISEARCH_HOST
+              value: "https://search.cmcts1.studio.ai.vn/"
+            - name: MEILISEARCH_API_KEY
+              value: "6503e9ce62dfbdd119ebc9819821a85948eeffcfe3b502c35ab1765c225b9aae"
+          readinessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              memory: "1Gi"
+            limits:
+              memory: "4Gi"
+
+
