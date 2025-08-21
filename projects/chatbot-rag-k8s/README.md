@@ -8,22 +8,25 @@ Dự án này triển khai một hệ thống chatbot thông minh với khả n�
 
 ### Core Services
 
-#### 1. **chatbot-backend** (Port: 3000)
-- **Vai trò**: Service chính xử lý logic nghiệp vụ của ứng dụng
+#### 1. **cagent-backend** (Port: 3000)
+- **Vai trò**: Service chính xử lý logic nghiệp vụ của ứng dụng C-Agent
 - **Endpoint**: Public access cho người dùng và admin
 - **Chức năng**:
   - Xử lý các cuộc hội thoại với người dùng
   - Quản lý phiên đăng nhập và xác thực
   - Tích hợp với các service khác để xử lý dữ liệu
   - API endpoints cho frontend và mobile apps
+  - Document store management và vector processing
+  - Meilisearch integration cho semantic search
 
-#### 2. **chatbot-s3**
+#### 2. **s3-explorer-api** (Port: 3001)
 - **Vai trò**: Service quản lý dữ liệu thô trên AWS S3
 - **Chức năng**:
   - Upload/download files từ S3 bucket
   - Quản lý metadata của documents
   - Xử lý các loại file khác nhau (PDF, DOC, TXT, etc.)
-  - Tích hợp với chatbot-backend để truy xuất dữ liệu
+  - Tích hợp với cagent-backend để truy xuất dữ liệu
+  - S3 bucket operations và file management
 
 #### 3. **Redis**
 - **Vai trò**: In-memory database cho session management
@@ -44,9 +47,9 @@ Dự án này triển khai một hệ thống chatbot thông minh với khả n�
 ### Data Flow
 
 ```
-User Request → chatbot-backend → [Redis (context) + PostgreSQL (user data)]
+User Request → cagent-backend → [Redis (context) + PostgreSQL (user data)]
                 ↓
-            chatbot-s3 (document retrieval)
+            s3-explorer-api (document retrieval)
                 ↓
             Vector Processing → Response Generation
                 ↓
@@ -69,9 +72,11 @@ User Request → chatbot-backend → [Redis (context) + PostgreSQL (user data)]
 - **Container**: Docker
 - **Orchestration**: Kubernetes
 - **Secrets Management**: External Secrets Operator với AWS Secrets Manager
+- **Image Registry**: AWS ECR (Elastic Container Registry)
 - **Monitoring**: Prometheus, Grafana, Alertmanager
 - **CI/CD**: GitHub Actions, GitLab CI, Jenkins
 - **Infrastructure**: Terraform
+- **Search Engine**: Meilisearch
 
 ## 📁 Cấu trúc dự án
 
@@ -93,10 +98,16 @@ chatbot-rag-k8s/
 ## 🚀 Triển khai
 
 ### Yêu cầu hệ thống
-- Kubernetes cluster (v1.24+)
+- Kubernetes cluster (v1.24+) trên EC2 instances
 - Helm 3.x
 - kubectl
+- AWS CLI
 - Terraform (cho infrastructure)
+
+### Prerequisites
+- AWS ECR repository với images: `pvi/cagent:latest`, `pvi/s3:latest`
+- AWS Secrets Manager secret: `ndthuat-k8s`
+- IAM role cho EC2 instances với quyền truy cập ECR và Secrets Manager
 
 ### Quick Start
 ```bash
@@ -104,8 +115,18 @@ chatbot-rag-k8s/
 git clone <repository-url>
 cd chatbot-rag-k8s
 
+# Tạo ECR secret để pull images
+aws ecr get-login-password --region us-east-1 \
+| kubectl create secret docker-registry ecr-secret \
+  --docker-server=187091248012.dkr.ecr.us-east-1.amazonaws.com \
+  --docker-username=AWS \
+  --docker-password-stdin
+
 # Deploy to Kubernetes
-./scripts/deploy.sh
+kubectl apply -f manifests/namespaces/
+kubectl apply -f manifests/external-secrets/
+kubectl apply -f manifests/deployments/
+kubectl apply -f manifests/services/
 ```
 
 ## 📊 Monitoring & Observability
@@ -120,7 +141,9 @@ cd chatbot-rag-k8s
 - **Network Policies**: Isolate services
 - **RBAC**: Role-based access control
 - **Secrets Management**: External Secrets Operator với AWS Secrets Manager
+- **Image Security**: ECR image scanning và vulnerability assessment
 - **Pod Security**: Security contexts và policies
+- **ECR Authentication**: Docker registry secrets cho private images
 
 ## 🔐 External Secrets Operator
 
@@ -153,13 +176,13 @@ AWS Secrets Manager → External Secrets Operator → Kubernetes Secret → Appl
 - **Kubernetes Secret**: `redis-secret`
 - **Usage**: Redis authentication và connection
 
-#### **PostgreSQL Secret** (dự kiến)
+#### **PostgreSQL Secret**
 - **AWS Secret Name**: `ndthuat-k8s`
-- **Properties**: `postgres_host`, `postgres_user`, `postgres_password`, `postgres_db`
+- **Properties**: `postgres_password`, `postgres_username`, `postgres_database`
 - **Kubernetes Secret**: `postgres-secret`
 - **Usage**: Database connection và authentication
 
-#### **AWS S3 Secret** (dự kiến)
+#### **AWS S3 Secret**
 - **AWS Secret Name**: `ndthuat-k8s`
 - **Properties**: `aws_access_key_id`, `aws_secret_access_key`, `s3_bucket_name`
 - **Kubernetes Secret**: `s3-secret`
@@ -185,7 +208,7 @@ kubectl apply -f manifests/external-secrets/secretstore-aws.yaml
 
 # Áp dụng ExternalSecrets
 kubectl apply -f manifests/external-secrets/externalsecret-redis.yaml
-# kubectl apply -f manifests/external-secrets/externalsecret-postgres.yaml
+kubectl apply -f manifests/external-secrets/externalsecret-postgres.yaml
 # kubectl apply -f manifests/external-secrets/externalsecret-s3.yaml
 ```
 
@@ -203,7 +226,7 @@ kubectl get secret -n chatbot
 
 ### IAM Policy cần thiết
 
-EC2 instances cần có IAM role với policy sau để truy cập AWS Secrets Manager:
+EC2 instances cần có IAM role với policy sau để truy cập AWS Secrets Manager và ECR:
 
 ```json
 {
@@ -220,6 +243,16 @@ EC2 instances cần có IAM role với policy sau để truy cập AWS Secrets M
       "Resource": [
         "arn:aws:secretsmanager:us-east-1:*:secret:ndthuat-k8s*"
       ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage"
+      ],
+      "Resource": "*"
     }
   ]
 }
@@ -259,3 +292,97 @@ kubectl get externalsecret redis-secret -n chatbot -o yaml | grep -A 5 status
 4. **Refresh Interval**: Cân bằng giữa security và performance
 5. **Monitoring**: Theo dõi sync status và errors
 6. **Backup**: Backup AWS Secrets Manager secrets định kỳ
+
+## 🚀 Services Status & Configuration
+
+### Current Deployed Services
+
+#### **cagent-backend**
+- **Status**: ✅ Deployed
+- **Image**: `187091248012.dkr.ecr.us-east-1.amazonaws.com/pvi/cagent:latest`
+- **Port**: 3000
+- **Resources**: 1Gi request, 4Gi limit
+- **Environment**: Production
+- **Database**: PostgreSQL (via postgres-secret)
+- **Features**: 
+  - Document store management
+  - Meilisearch integration
+  - S3 integration via s3-explorer-api
+
+#### **s3-explorer-api**
+- **Status**: ✅ Deployed
+- **Image**: `187091248012.dkr.ecr.us-east-1.amazonaws.com/pvi/s3:latest`
+- **Port**: 3001
+- **Resources**: 128Mi request, 512Mi limit
+- **S3 Bucket**: `ndthuat-lab`
+- **Region**: `ap-southeast-1`
+
+#### **PostgreSQL**
+- **Status**: ✅ Deployed
+- **Port**: 5432
+- **Credentials**: Managed via AWS Secrets Manager
+- **Connection**: Internal service name `postgres`
+
+#### **Redis**
+- **Status**: ✅ Deployed
+- **Port**: 6379
+- **Password**: Managed via AWS Secrets Manager
+- **Connection**: Internal service name `redis`
+
+### Service Dependencies
+
+```
+cagent-backend (3000) ←→ s3-explorer-api (3001)
+       ↓                           ↓
+  PostgreSQL (5432)           Redis (6379)
+       ↓                           ↓
+  AWS Secrets Manager      AWS Secrets Manager
+```
+
+### Network Configuration
+
+- **Namespace**: `chatbot`
+- **Service Type**: `ClusterIP` (internal communication)
+- **Image Pull**: `ecr-secret` for ECR authentication
+- **Health Checks**: TCP probes on respective ports
+
+### Public Access Configuration
+
+#### **cagent-backend Public Access**
+- **Current Status**: Internal only (ClusterIP)
+- **Public Access Options**:
+  1. **LoadBalancer Service**: Direct public exposure
+  2. **Ingress + ALB**: Recommended approach with HTTPS support
+  3. **NodePort + NLB**: Alternative for specific use cases
+
+#### **Ingress Configuration (Recommended)**
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cagent-backend
+  namespace: chatbot
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    external-dns.alpha.kubernetes.io/hostname: api.your-domain.com
+spec:
+  rules:
+  - host: api.your-domain.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: cagent-backend
+            port:
+              number: 3000
+```
+
+#### **Prerequisites for Public Access**
+- AWS Load Balancer Controller installed
+- IAM permissions for ALB/NLB creation
+- Route53 hosted zone configured
+- ACM certificate (for HTTPS)
