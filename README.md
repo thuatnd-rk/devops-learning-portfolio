@@ -4,7 +4,7 @@
 
 Hi, I'm a DevOps Engineer with a passion for cloud-native technologies and automation. I have:
 - **1+ year** experience with AWS Cloud services
-- **8 months** as DevOps Engineer at CAgent (AI Chatbot product)
+- **10 months** as DevOps Engineer at CAgent (CTS AI Chatbot product)
 - Strong focus on **Kubernetes**, **Terraform**, **AWS EKS**, and **Monitoring**
 - Currently preparing for **CKA certification** and advancing DevOps practices
 
