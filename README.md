@@ -6,17 +6,17 @@ Hi, I'm a DevOps Engineer with a passion for cloud-native technologies and autom
 - **1+ year** experience with AWS Cloud services
 - **8 months** as DevOps Engineer at CAgent (AI Chatbot product)
 - Strong focus on **Kubernetes**, **Terraform**, **AWS EKS**, and **Monitoring**
-- Currently exploring **CKA certification** and advanced DevOps practices
+- Currently preparing for **CKA certification** and advancing DevOps practices
 
 ## 🎯 Current Focus Areas
 
-- **AWS Solutions Architect Professional** (SAP C02 - August 2025)
 - **Kubernetes Administration** (CKA - December 2025)
 - **Infrastructure as Code** (Terraform, CloudFormation)
 - **GitOps & CI/CD** (ArgoCD, Flux, GitHub Actions, Jenkins)
 - **Monitoring & Observability** (Prometheus, Grafana, Jaeger)
 - **Linux System Administration**
-- **Network Security & Troubleshooting**
+- **Container Orchestration** (Docker, Kubernetes)
+- **Cloud-Native Development**
 
 ## 🛠️ Technical Skills
 
@@ -48,27 +48,56 @@ Hi, I'm a DevOps Engineer with a passion for cloud-native technologies and autom
 ```
 devops-learning-portfolio/
 ├── projects/                    # Real-world projects
-│   ├── cagent-eks/             # CAgent EKS deployment
-│   ├── monitoring-stack/        # Prometheus/Grafana setup
+│   ├── chatbot-eks/            # CAgent EKS deployment with monitoring
 │   ├── chatbot-rag-k8s/        # Chatbot RAG Kubernetes deployment
-│   └── infrastructure-demos/    # Terraform/Helm examples
+│   ├── system-monitoring/       # Prometheus/Grafana/Loki monitoring stack
+│   └── README.md               # Projects overview
 ├── learning/                    # Study materials
-│   ├── cka-preparation/         # CKA certification prep
-│   ├── kubernetes-deep-dive/    # K8s advanced concepts
+│   ├── cka/                    # CKA certification preparation
+│   │   ├── 2. Core concepts/    # Kubernetes core concepts
+│   │   ├── 3. Scheduling/      # Pod scheduling and management
+│   │   ├── 4. Logging & Monitoring/ # Observability
+│   │   ├── 5. Application Lifecycle Management/
+│   │   ├── 6. Maintenance/     # Cluster maintenance
+│   │   ├── 7. Security/        # Kubernetes security
+│   │   ├── 8. Storage/         # Persistent storage
+│   │   ├── 9. Networking/       # Network policies and services
+│   │   ├── 10. Helm/           # Package management
+│   │   ├── 11. Kustomize/      # Configuration management
+│   │   ├── 12. Exam/           # Exam preparation materials
+│   │   ├── 13. Kubernetes the hard way/ # Manual cluster setup
+│   │   └── 14. Install/        # Installation guides
+│   ├── docker/                 # Docker fundamentals
 │   ├── gitops-cicd/            # GitOps & CI/CD tools
-│   ├── monitoring-observability/ # Monitoring stack
-│   ├── linux-system-admin/      # Linux administration
-│   ├── networking/              # Network concepts
-│   └── aws-cloud/              # AWS services
-├── tools-scripts/               # Custom tools & scripts
-├── certifications/              # Certification materials
-├── blog-posts/                  # Technical articles
-└── resources/                   # Reference materials
+│   ├── monitoring-observability/ # Monitoring stack documentation
+│   ├── ubuntu/                 # Linux system administration
+│   ├── machine-learning/       # ML/AI projects and concepts
+│   └── java-script/           # JavaScript/Node.js learning
+├── books/                      # Technical books and resources
+│   ├── Kubernetes in Action.pdf
+│   ├── GitOps and Kubernetes.pdf
+│   ├── The DevOps Handbook.pdf
+│   ├── Docker in Action.pdf
+│   ├── Terraform in Action.pdf
+│   └── System Design Interview.pdf
+└── resources/                  # Reference materials
+    └── skills-matrix.md        # Skills tracking
 ```
 
 ## 🏆 Featured Projects
 
-### **1. Chatbot RAG Kubernetes Deployment**
+### **1. Chatbot EKS Deployment**
+- **Description**: Production-ready CAgent microservices deployment on AWS EKS
+- **Technologies**: Kubernetes, AWS EKS, Terraform, Helm, Prometheus, Grafana
+- **Key Features**:
+  - Complete EKS cluster setup with Terraform
+  - Helm charts for application deployment
+  - Comprehensive monitoring with Prometheus/Grafana
+  - CI/CD pipelines with GitHub Actions
+  - Security policies and network configurations
+  - Auto-scaling and load balancing
+
+### **2. Chatbot RAG Kubernetes Deployment**
 - **Description**: Intelligent chatbot system with RAG capabilities deployed on Kubernetes
 - **Technologies**: Kubernetes, External Secrets Operator, AWS Secrets Manager, PostgreSQL, Redis
 - **Key Features**:
@@ -77,150 +106,127 @@ devops-learning-portfolio/
   - Microservices architecture with Redis and PostgreSQL
   - Local storage configuration for database persistence
   - Comprehensive monitoring and security setup
+  - Terraform infrastructure automation
 
-### **2. CAgent EKS Deployment**
-- **Description**: Production-ready microservices deployment on AWS EKS
-- **Technologies**: Kubernetes, AWS EKS, Terraform, Helm, Prometheus, Grafana
-- **Key Achievements**:
-  - Reduced deployment time from 2 hours to 15 minutes
-  - Implemented auto-scaling for 3x traffic spikes
-  - Set up comprehensive monitoring with 99.9% uptime
-  - Automated CI/CD pipeline with zero-downtime deployments
-
-### **2. Monitoring Stack**
-- **Description**: Complete observability solution with Prometheus, Grafana, and AlertManager
-- **Technologies**: Prometheus, Grafana, AlertManager, Custom Metrics
+### **3. System Monitoring Stack**
+- **Description**: Complete observability solution with Prometheus, Grafana, Loki, and AlertManager
+- **Technologies**: Prometheus, Grafana, Loki, AlertManager, Fluent Bit
 - **Features**:
   - Custom dashboards for application metrics
   - Automated alerting system
-  - Distributed tracing with Jaeger
-  - Log aggregation with ELK stack
-
-### **3. Infrastructure as Code**
-- **Description**: Reusable Terraform modules and Helm charts
-- **Technologies**: Terraform, Helm, Kubernetes, AWS
-- **Components**:
-  - Modular Terraform configurations
-  - Custom Helm charts for applications
-  - CI/CD pipeline automation
-  - Security best practices implementation
-
-### **4. GitOps & CI/CD**
-- **Description**: Complete GitOps workflow with CI/CD pipelines
-- **Technologies**: ArgoCD, Flux, GitHub Actions, Jenkins, Tekton
-- **Components**:
-  - GitOps deployment with ArgoCD
-  - Multi-cluster management with Flux
-  - Automated CI/CD pipelines
-  - Security scanning and compliance
+  - Log aggregation with Loki and Fluent Bit
+  - Docker Compose setup for local development
+  - Blackbox monitoring for external services
+  - Grafana dashboard templates
 
 ## 📚 Learning Journey
 
 ### **Current Status**
-- [x] **AWS Cloud Fundamentals** - EC2, S3, RDS, VPC
-- [x] **Kubernetes Basics** - Pods, Services, Deployments
+- [x] **AWS Cloud Fundamentals** - EC2, S3, RDS, VPC, EKS
+- [x] **Kubernetes Basics** - Pods, Services, Deployments, ConfigMaps, Secrets
 - [x] **Infrastructure as Code** - Terraform, CloudFormation
-- [x] **Monitoring Setup** - Prometheus, Grafana
-- [ ] **AWS Solutions Architect Professional** - In Progress (August 2025)
+- [x] **Monitoring Setup** - Prometheus, Grafana, Loki
+- [x] **Container Orchestration** - Docker, Kubernetes
+- [x] **CI/CD Pipelines** - GitHub Actions, GitLab CI
 - [ ] **CKA Certification** - In Progress (December 2025)
-- [ ] **GitOps & CI/CD** - Not Started (January 2026)
-- [ ] **Advanced Kubernetes** - Service Mesh, Operators
+- [ ] **Advanced Kubernetes** - Service Mesh, Operators, Custom Resources
+- [ ] **GitOps Implementation** - ArgoCD, Flux
 - [ ] **Linux System Administration** - In Progress
+- [ ] **Machine Learning Integration** - ML/AI with Kubernetes
 
-### **Learning Roadmap**
-See [ROADMAP.md](./ROADMAP.md) for detailed learning path and goals.
+### **Learning Focus Areas**
+- **CKA Preparation**: Comprehensive study materials and hands-on labs
+- **Kubernetes Security**: RBAC, Network Policies, Pod Security Standards
+- **GitOps & CI/CD**: ArgoCD, Flux, automated deployment pipelines
+- **Monitoring & Observability**: Advanced Prometheus, Grafana, distributed tracing
+- **Linux Administration**: System administration, networking, troubleshooting
 
 ## 📊 Skills Matrix
 
 | Skill Category | Current Level | Target Level | Timeline |
 |----------------|---------------|--------------|----------|
-| AWS Solutions Architect Professional | Advanced | Expert | 1 month |
-| Kubernetes | Intermediate | Expert | 5 months |
-| Terraform | Intermediate | Expert | 6 months |
-| GitOps & CI/CD | Beginner | Expert | 6 months |
-| Monitoring | Intermediate | Expert | 6 months |
-| Linux Admin | Beginner | Intermediate | 12 months |
-| Networking | Beginner | Intermediate | 12 months |
+| Kubernetes (CKA) | Intermediate | Expert | 2 months |
+| AWS EKS | Intermediate | Expert | 3 months |
+| Terraform | Intermediate | Expert | 4 months |
+| GitOps & CI/CD | Beginner | Advanced | 6 months |
+| Monitoring & Observability | Intermediate | Expert | 3 months |
+| Linux Administration | Beginner | Intermediate | 6 months |
+| Docker & Containers | Intermediate | Expert | 2 months |
+| Machine Learning | Beginner | Intermediate | 12 months |
 
 ## 🎯 Career Goals
 
-### **Short Term (6 months)**
-- [ ] Obtain SAP C02 certification (August 2025)
+### **Short Term (3-6 months)**
 - [ ] Complete CKA certification (December 2025)
-- [ ] Master GitOps and CI/CD practices
-- [ ] Master advanced Kubernetes concepts
+- [ ] Master advanced Kubernetes concepts (Service Mesh, Operators)
+- [ ] Implement GitOps workflows with ArgoCD
 - [ ] Build comprehensive monitoring solutions
+- [ ] Enhance Linux system administration skills
 
-### **Medium Term (1-2 years)**
+### **Medium Term (6-12 months)**
 - [ ] Become Senior DevOps Engineer
 - [ ] Lead infrastructure projects
-- [ ] Mentor junior team members
+- [ ] Master Machine Learning integration with Kubernetes
 - [ ] Contribute to open-source projects
+- [ ] Mentor junior team members
 
-### **Long Term (2-3 years)**
+### **Long Term (1-2 years)**
 - [ ] Platform Engineering specialization
 - [ ] SRE practices implementation
 - [ ] Architecture design leadership
 - [ ] Technical leadership role
+- [ ] AI/ML DevOps specialization
 
-## 📝 Blog Posts & Articles
+## 📚 Learning Resources
 
-### **Technical Articles**
-- [ ] "From Zero to EKS: Building a Production-Ready Kubernetes Cluster"
-- [ ] "Monitoring Microservices: Prometheus + Grafana Setup"
-- [ ] "Terraform Best Practices for AWS EKS"
-- [ ] "GitOps Implementation with ArgoCD"
-- [ ] "CI/CD Pipeline Design with GitHub Actions"
-- [ ] "DevOps Lessons Learned from CAgent Project"
+### **Books & Materials**
+- **Kubernetes in Action** - Comprehensive Kubernetes guide
+- **GitOps and Kubernetes** - GitOps implementation patterns
+- **The DevOps Handbook** - DevOps culture and practices
+- **Docker in Action** - Container fundamentals
+- **Terraform in Action** - Infrastructure as Code
+- **System Design Interview** - System design principles
+- **Effective DevOps** - DevOps best practices
+- **Accelerate** - DevOps research and metrics
 
-### **Tutorials**
-- [ ] "CKA Preparation Guide"
-- [ ] "Kubernetes Security Best Practices"
-- [ ] "GitOps with ArgoCD: Complete Guide"
-- [ ] "CI/CD Pipeline with GitHub Actions"
-- [ ] "Setting up Monitoring Stack from Scratch"
-- [ ] "Linux System Administration for DevOps"
+### **Learning Materials**
+- **CKA Preparation**: Comprehensive study guides and hands-on labs
+- **Linux Commands**: Essential commands for DevOps engineers
+- **Docker Fundamentals**: Container orchestration basics
+- **GitOps & CI/CD**: ArgoCD, Flux, GitHub Actions workflows
+- **Monitoring Stack**: Prometheus, Grafana, Loki documentation
+- **Machine Learning**: AI/ML integration with Kubernetes
 
-### **Case Studies**
-- [ ] "CAgent EKS Migration Case Study"
-- [ ] "GitOps Implementation Case Study"
-- [ ] "CI/CD Pipeline Optimization"
-- [ ] "Performance Optimization in Kubernetes"
-- [ ] "Incident Response and Troubleshooting"
+## 🛠️ Tools & Technologies
 
-## 🛠️ Tools & Scripts
+### **Container Orchestration**
+- **Kubernetes**: Cluster administration, Helm charts, RBAC
+- **Docker**: Containerization, multi-stage builds
+- **AWS EKS**: Managed Kubernetes service
 
-### **Kubernetes Tools**
-- Custom kubectl plugins
-- Deployment automation scripts
-- Troubleshooting utilities
-- Resource monitoring tools
+### **Infrastructure as Code**
+- **Terraform**: AWS infrastructure automation
+- **Helm**: Kubernetes package management
+- **CloudFormation**: AWS resource management
 
-### **GitOps & CI/CD Tools**
-- ArgoCD application configurations
-- Flux deployment manifests
-- GitHub Actions workflows
-- Jenkins pipeline scripts
-- Tekton pipeline resources
+### **Monitoring & Observability**
+- **Prometheus**: Metrics collection and alerting
+- **Grafana**: Dashboard creation and visualization
+- **Loki**: Log aggregation and analysis
+- **AlertManager**: Alert routing and management
+- **Fluent Bit**: Log processing and forwarding
 
-### **Monitoring Tools**
-- Custom Prometheus exporters
-- Grafana dashboard templates
-- Alert management scripts
-- Performance analysis tools
+### **CI/CD & GitOps**
+- **GitHub Actions**: Automated CI/CD pipelines
+- **GitLab CI**: Continuous integration workflows
+- **ArgoCD**: GitOps continuous deployment
+- **Flux**: GitOps automation for Kubernetes
 
-### **Automation Scripts**
-- CI/CD pipeline automation
-- GitOps deployment automation
-- Backup and maintenance scripts
-- Infrastructure deployment tools
-- Security scanning utilities
-
-## 📈 Progress Tracking
-
-- **Learning Progress**: See [learning/progress-tracking.md](./learning/progress-tracking.md)
-- **Skills Matrix**: See [resources/skills-matrix.md](./resources/skills-matrix.md)
-- **Certification Status**: See [certifications/](./certifications/) directory
+### **Security & Networking**
+- **RBAC**: Role-based access control
+- **Network Policies**: Kubernetes network security
+- **Pod Security Standards**: Container security
+- **AWS IAM**: Identity and access management
 
 
 
@@ -232,8 +238,21 @@ See [ROADMAP.md](./ROADMAP.md) for detailed learning path and goals.
 
 
 
+## 📈 Progress Tracking
+
+- **Learning Progress**: See [learning/progress-tracking.md](./learning/progress-tracking.md)
+- **Skills Matrix**: See [resources/skills-matrix.md](./resources/skills-matrix.md)
+- **CKA Preparation**: See [learning/cka/](./learning/cka/) directory
+- **Project Documentation**: See [projects/](./projects/) directory
+
+## 📞 Contact
+
+- **LinkedIn**: [https://www.linkedin.com/in/thuatnguyen/](https://www.linkedin.com/in/thuatnguyen/)
+- **Email**: thuatnguyen1011@gmail.com
+- **GitHub**: [https://github.com/thuatnd-rk](https://github.com/thuatnd-rk)
+
 ---
 
-**Last Updated**: December 2025  
+**Last Updated**: September 2025  
 **Status**: Active Learning & Development  
-**Next Milestone**: CKA Certification Preparation
+**Next Milestone**: CKA Certification (December 2025)
