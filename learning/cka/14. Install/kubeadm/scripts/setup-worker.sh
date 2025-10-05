@@ -2,6 +2,7 @@
 
 # Kubernetes Worker Node Setup Script
 # Usage: ./setup-worker.sh <MASTER_IP> <JOIN_COMMAND_FILE>
+./setup-worker.sh 10.0.8.129 worker-join-command.txt
 
 set -e  # Exit on any error
 

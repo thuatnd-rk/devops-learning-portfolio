@@ -265,7 +265,7 @@ VITE_DOCUMENT_STORE_TYPE: "s3"
 VITE_DOCUMENT_STORE_BASE_URL: "http://s3-explorer-service.vpcp-app.svc.cluster.local:3001"
 
 # S3 Configuration
-S3_STORAGE_REGION: "us-east-1"
+S3_STORAGE_REGION: "ap-southeast-1"
 S3_STORAGE_BUCKET_NAME: "vpcp-cagent-poc-docs"
 
 # Performance
@@ -282,8 +282,8 @@ PORT: "3001"
 
 # S3 Configuration
 S3_STORAGE_BUCKET_NAME: "vpcp-cagent-poc-docs"
-S3_STORAGE_REGION: "us-east-1"
-AWS_REGION: "us-east-1"
+S3_STORAGE_REGION: "ap-southeast-1"
+AWS_REGION: "ap-southeast-1"
 
 # Database Configuration
 DATABASE_TYPE: "postgres"
@@ -305,7 +305,7 @@ TRIGGER_SECRET_KEY: "[configured]"
 TRIGGER_API_URL: "https://trigger.1882.studio.ai.vn"
 
 # AWS OpenSearch
-COLLECTION_ARN: "arn:aws:aoss:us-east-1:187091248012:collection/hjrorw4a5fdfg1fwhg28"
+COLLECTION_ARN: "arn:aws:aoss:ap-southeast-1:187091248012:collection/hjrorw4a5fdfg1fwhg28"
 BUCKET_OWNER_ACCOUNT_ID: "187091248012"
 ROLE_ARN: "arn:aws:iam::187091248012:role/VPCPCAgentBedrock"
 ```

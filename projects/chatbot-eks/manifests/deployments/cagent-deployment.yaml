@@ -23,7 +23,7 @@ spec:
       serviceAccountName: cagent-sa
       containers:
       - name: cagent
-        image: 187091248012.dkr.ecr.us-east-1.amazonaws.com/vpcp/cagent:latest
+        image: 187091248012.dkr.ecr.ap-southeast-1.amazonaws.com/vpcp/cagent:latest
         ports:
         - containerPort: 3000
           name: http
