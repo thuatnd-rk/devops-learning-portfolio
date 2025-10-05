@@ -1,4 +1,4 @@
-1. Tìm hiểu các logging stack
+## 1. Tìm hiểu các logging stack
 
 ### Grafana - Loki
 - Logs -> Promtail (hoặc Fluent Bit) -> Grafana Loki -> Grafana/Tempo (truy vết) -> Alerting
@@ -18,7 +18,7 @@
 - Source -> Transforms -> Sinks
 - Vector có thể thay Fluent Bit/Fluentd/Logstash trong nhiều trường hợp nhờ hiệu năng cao (Rust), cấu hình thống nhất, nhiều plugin.
 
-2. So sánh & phân tích logging stack
+## 2. So sánh & phân tích logging stack
 
 Hiểu rõ bài toán, dữ liệu log, mô hình truy vấn, yêu cầu SLA, ngân sách, kỹ năng đội ngũ trước khi chọn.
 
@@ -65,7 +65,7 @@ Gợi ý nhanh:
 - Khi nào dùng:
   - K8S logs, microservices, SRE observability, multi-tenant cost-effective.
 
-3. Agent/processor (Vector, Fluent Bit, Fluentd, Logstash)
+## 3. Agent/processor (Vector, Fluent Bit, Fluentd, Logstash)
 
 | Tiêu chí | Vector | Fluent Bit | Fluentd | Logstash |
 |---|---|---|---|---|
@@ -81,7 +81,7 @@ Gợi ý:
 - Cần transform phức tạp nhưng hiệu năng: Vector.
 - Muốn bám chặt hệ sinh thái Elastic: Beats + Logstash.
 
-4. Triển khai hệ thống log tập trung ở hạ tầng nào?
+## 4. Triển khai hệ thống log tập trung ở hạ tầng nào?
 
 Có 3 hạ tầng chính:
 - Trên server (VM/Bare metal)
