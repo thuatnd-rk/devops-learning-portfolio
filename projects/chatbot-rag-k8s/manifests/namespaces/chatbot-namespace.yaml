@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: chatbot
-  labels:
-    name: chatbot
-    environment: production
-    app: chatbot-rag
-    team: devops
