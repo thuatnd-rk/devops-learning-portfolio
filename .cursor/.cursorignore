@@ -1,0 +1,34 @@
+# Docs/binaries lớn
+**/*.pdf
+**/*.png
+**/*.jpg
+**/*.gif
+**/*.zip
+**/*.tar.gz
+
+# Build/venv/cache
+**/node_modules/**
+**/dist/**
+**/.terraform/**
+**/.terragrunt-cache/**
+**/.venv/**
+**/__pycache__/**
+
+# Charts vendored / generated
+**/charts/**/charts/**
+**/generated/**
+
+# Học liệu nặng không cần index
+learning/**/books/**
+books/**
+
+# Hệ điều hành/IDE rác
+**/.DS_Store
+**/.idea/**
+**/.vscode/**
+**/.history/**
+
+# Terraform lock/state (đã theo dõi state ở backend thì bỏ qua lock cho nhẹ)
+**/.terraform.lock.hcl
+**/*.tfstate
+**/*.tfstate.*

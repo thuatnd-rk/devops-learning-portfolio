@@ -1,0 +1,19 @@
+{
+    "pinned": [
+      "README.md",
+      "projects/README.md",
+      "projects/chatbot-eks/README.md",
+      "projects/system-monitoring/README.md",
+      "learning/cka/12. Exam/k8s-cheat-sheet.md"
+    ],
+    "alsoPinIfExists": [
+      "CONTRIBUTING.md",
+      "docs/architecture.md",
+      "Makefile",
+      "projects/chatbot-eks/helm/**/values*.yaml",
+      "projects/chatbot-eks/manifests/**.yaml",
+      "projects/chatbot-eks/terraform/**.tf",
+      "projects/system-monitoring/**.yml",
+      "learning/**/README.md"
+    ]
+  }

@@ -1,0 +1,11 @@
+{
+    "default": { "chat": "gpt-4o-mini", "edit": "gpt-4o-mini" },
+    "routes": [
+      { "pattern": "projects/**/terraform/**", "chat": "gpt-4o", "edit": "gpt-4o" },
+      { "pattern": "projects/**/manifests/**", "chat": "gpt-4o", "edit": "gpt-4o" },
+      { "pattern": "projects/**/helm/**", "chat": "gpt-4o", "edit": "gpt-4o" },
+      { "pattern": "projects/system-monitoring/**", "chat": "gpt-4o", "edit": "gpt-4o" },
+      { "pattern": "learning/**", "chat": "gpt-4o-mini", "edit": "gpt-4o-mini" },
+      { "pattern": "**/*.md", "chat": "gpt-4o-mini", "edit": "gpt-4o-mini" }
+    ]
+  }
