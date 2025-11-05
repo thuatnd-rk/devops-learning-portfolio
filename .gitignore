@@ -1,1 +1,76 @@
 tempfile
+# OS/system
+.DS_Store
+Thumbs.db
+ehthumbs.db
+.Spotlight-V100
+.Trashes
+
+# Editors/IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+.env.*
+.pytest_cache/
+.mypy_cache/
+
+# Node/JS
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-store/
+dist/
+build/
+.cache/
+.next/
+out/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+.terraform.lock.hcl
+
+# Kubernetes
+.kube/
+*.kubeconfig
+
+# Coverage/Reports
+coverage/
+coverage.xml
+htmlcov/
+
+# Binary/Artifacts
+*.bin
+*.exe
+*.dll
+*.so
+*.dylib
+*.iso
+*.img
+
+# Archives
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+
+# Jupyter
+.ipynb_checkpoints/
