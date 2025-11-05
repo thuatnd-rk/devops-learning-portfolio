@@ -1,0 +1,19 @@
+# settings.yaml
+# box_name: "sloopstash/ubuntu-22-04"
+box_name: "bento/ubuntu-24.04"
+# box_version: "2.1.1"
+vm:
+- name: "controlplane"
+  memory: "2048"
+  cpus: "2"
+- name: "node01"
+  memory: "2048"
+  cpus: "2"
+- name: "node02"
+  memory: "2048"
+  cpus: "2"
+
+# - name: "node03"
+#   ip: "192.168.201.13"
+#   memory: "2048"
+#   cpus: "1"

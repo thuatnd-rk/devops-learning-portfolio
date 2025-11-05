@@ -1,0 +1,316 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: frontend
+  labels:
+    name: frontend
+    env: production
+    project: ecommerce-platform
+    version: "1.0.0"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: backend
+  labels:
+    name: backend
+    env: production
+    project: ecommerce-platform
+    version: "1.0.0"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: payment
+  labels:
+    name: payment
+    env: production
+    project: ecommerce-platform
+    version: "1.0.0"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: frontend
+  labels:
+    app: webserver
+    env: production
+    project: ecommerce-platform
+    version: "1.0.0"
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <body>
+    <h1>Hey! I am the website frontend</h1>
+    </body>
+    </html>
+  nginx.conf: |
+    user  nginx;
+    worker_processes  auto;
+    error_log  /var/log/nginx/error.log warn;
+    pid        /var/run/nginx.pid;
+
+    events {
+      worker_connections  1024;
+    }
+
+    http {
+      include       /etc/nginx/mime.types;
+      default_type  application/octet-stream;
+      sendfile        on;
+      keepalive_timeout  65;
+
+      server {
+        listen 80;
+        server_name localhost;
+
+        location / {
+          root /usr/share/nginx/html;
+          index index.html;
+        }
+      }
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: backend
+  labels:
+    app: backend-api
+    env: production
+    project: ecommerce-platform
+    version: "1.0.0"
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <body>
+    <h1>Hey I am the backend server</h1>
+    </body>
+    </html>
+  nginx.conf: |
+    user  nginx;
+    worker_processes  auto;
+    error_log  /var/log/nginx/error.log warn;
+    pid        /var/run/nginx.pid;
+
+    events {
+      worker_connections  1024;
+    }
+
+    http {
+      include       /etc/nginx/mime.types;
+      default_type  application/octet-stream;
+      sendfile        on;
+      keepalive_timeout  65;
+
+      server {
+        listen 80;
+        server_name localhost;
+
+        location / {
+          root /usr/share/nginx/html;
+          index index.html;
+        }
+      }
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: payment
+  labels:
+    app: payment-api
+    env: production
+    project: ecommerce-platform
+    version: "1.0.0"
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <body>
+    <h1>Hey I am the payment API</h1>
+    </body>
+    </html>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  namespace: frontend
+  labels:
+    app: webserver
+    tier: frontend
+    env: production
+    project: ecommerce-platform
+    version: "1.0.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webserver
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: webserver
+        tier: frontend
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        volumeMounts:
+        - name: config-volume
+          mountPath: /usr/share/nginx/html
+        - name: nginx-conf-volume
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+      volumes:
+      - name: config-volume
+        configMap:
+          name: nginx-config
+      - name: nginx-conf-volume
+        configMap:
+          name: nginx-config
+          items:
+          - key: nginx.conf
+            path: nginx.conf
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  namespace: frontend
+  labels:
+    app: webserver
+    env: production
+    project: ecommerce-platform
+    version: "1.0.0"
+spec:
+  selector:
+    app: webserver
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: backend
+  labels:
+    app: backend-api
+    tier: backend
+    env: production
+    project: ecommerce-platform
+    version: "1.0.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-api
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: backend-api
+        tier: backend
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        volumeMounts:
+        - name: config-volume
+          mountPath: /usr/share/nginx/html
+        - name: nginx-conf-volume
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+      volumes:
+      - name: config-volume
+        configMap:
+          name: nginx-config
+      - name: nginx-conf-volume
+        configMap:
+          name: nginx-config
+          items:
+          - key: nginx.conf
+            path: nginx.conf
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  namespace: backend
+  labels:
+    app: backend-api
+    env: production
+    project: ecommerce-platform
+    version: "1.0.0"
+spec:
+  selector:
+    app: backend-api
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-deployment
+  namespace: payment
+  labels:
+    app: payment-api
+    tier: payment
+    env: production
+    project: ecommerce-platform
+    version: "1.0.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-api
+      tier: payment
+  template:
+    metadata:
+      labels:
+        app: payment-api
+        tier: payment
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        volumeMounts:
+        - name: config-volume
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: config-volume
+        configMap:
+          name: nginx-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service
+  namespace: payment
+  labels:
+    app: payment-api
+    env: production
+    project: ecommerce-platform
+    version: "1.0.0"
+spec:
+  selector:
+    app: payment-api
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP
