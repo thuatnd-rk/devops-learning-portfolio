@@ -1,0 +1,11 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: nginx-gateway-class
+spec:
+  controllerName: gateway.nginx.org/nginx-gateway-controller
+  # parametersRef:
+  #   group: gateway.nginx.org
+  #   kind: NginxProxy
+  #   name: ngf-proxy-config
+  #   namespace: nginx-gateway
