@@ -4,8 +4,8 @@ metadata:
   name: nginx-gateway-class
 spec:
   controllerName: gateway.nginx.org/nginx-gateway-controller
-  # parametersRef:
-  #   group: gateway.nginx.org
-  #   kind: NginxProxy
-  #   name: ngf-proxy-config
-  #   namespace: nginx-gateway
+  parametersRef:
+    group: gateway.nginx.org
+    kind: NginxProxy
+    name: ngf-proxy-config
+    namespace: nginx-gateway
