@@ -1,10 +1,22 @@
 {
     "default": { "chat": "gpt-4o-mini", "edit": "gpt-4o-mini" },
     "routes": [
-      { "pattern": "projects/**/terraform/**", "chat": "gpt-4o", "edit": "gpt-4o" },
-      { "pattern": "projects/**/manifests/**", "chat": "gpt-4o", "edit": "gpt-4o" },
-      { "pattern": "projects/**/helm/**", "chat": "gpt-4o", "edit": "gpt-4o" },
-      { "pattern": "projects/system-monitoring/**", "chat": "gpt-4o", "edit": "gpt-4o" },
+      { "pattern": "**/*.py", "chat": "claude-sonnet-4.5", "edit": "claude-sonnet-4.5" },
+      { "pattern": "**/*.js", "chat": "claude-sonnet-4.5", "edit": "claude-sonnet-4.5" },
+      { "pattern": "**/*.ts", "chat": "claude-sonnet-4.5", "edit": "claude-sonnet-4.5" },
+      { "pattern": "**/*.tsx", "chat": "claude-sonnet-4.5", "edit": "claude-sonnet-4.5" },
+      { "pattern": "**/*.jsx", "chat": "claude-sonnet-4.5", "edit": "claude-sonnet-4.5" },
+      { "pattern": "**/*.go", "chat": "claude-sonnet-4.5", "edit": "claude-sonnet-4.5" },
+      { "pattern": "**/*.java", "chat": "claude-sonnet-4.5", "edit": "claude-sonnet-4.5" },
+      { "pattern": "**/*.cpp", "chat": "claude-sonnet-4.5", "edit": "claude-sonnet-4.5" },
+      { "pattern": "**/*.c", "chat": "claude-sonnet-4.5", "edit": "claude-sonnet-4.5" },
+      { "pattern": "**/*.rs", "chat": "claude-sonnet-4.5", "edit": "claude-sonnet-4.5" },
+      { "pattern": "**/*.rb", "chat": "claude-sonnet-4.5", "edit": "claude-sonnet-4.5" },
+      { "pattern": "**/*.php", "chat": "claude-sonnet-4.5", "edit": "claude-sonnet-4.5" },
+      { "pattern": "projects/**/terraform/**", "chat": "claude-sonnet-4.5", "edit": "claude-sonnet-4.5" },
+      { "pattern": "projects/**/manifests/**", "chat": "claude-sonnet-4.5", "edit": "claude-sonnet-4.5" },
+      { "pattern": "projects/**/helm/**", "chat": "claude-sonnet-4.5", "edit": "claude-sonnet-4.5" },
+      { "pattern": "projects/system-monitoring/**", "chat": "claude-sonnet-4.5", "edit": "claude-sonnet-4.5" },
       { "pattern": "learning/**", "chat": "gpt-4o-mini", "edit": "gpt-4o-mini" },
       { "pattern": "**/*.md", "chat": "gpt-4o-mini", "edit": "gpt-4o-mini" }
     ]

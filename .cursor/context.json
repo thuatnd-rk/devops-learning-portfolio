@@ -1,10 +1,7 @@
 {
     "pinned": [
       "README.md",
-      "projects/README.md",
-      "projects/chatbot-eks/README.md",
-      "projects/system-monitoring/README.md",
-      "learning/cka/12. Exam/k8s-cheat-sheet.md"
+      "learning/cka/*"
     ],
     "alsoPinIfExists": [
       "CONTRIBUTING.md",

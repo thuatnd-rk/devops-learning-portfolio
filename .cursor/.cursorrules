@@ -24,7 +24,7 @@ Repository Conventions
 - Observability: theo `projects/system-monitoring/**` (Prometheus, Grafana, Loki, Fluent Bit).
 
 Answer Format
-- Dùng markdown gọn; code fence chỉ cho snippet.
+- Dùng markdown gọn, code fence chỉ cho snippet.
 - Khi trích file có sẵn, dùng code reference (startLine:endLine:filepath).
 - Khi đề xuất file mới, xuất toàn bộ nội dung file để copy.
 
