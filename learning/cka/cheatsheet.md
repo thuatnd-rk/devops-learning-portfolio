@@ -188,4 +188,92 @@ roleRef:
 - Thiết lập `ResourceQuota` và `LimitRange` theo namespace
 - Ghi log ra stdout/stderr; thiết kế stateless khi có thể
 
+### EKS Provisioning (AWS CLI)
+#### Cluster
+- Liệt kê clusters: `aws eks list-clusters --region <region>`
+- Mô tả cluster: `aws eks describe-cluster --name <cluster-name> --region <region>`
+- Tạo cluster:
+  ```bash
+  aws eks create-cluster \
+    --name <cluster-name> \
+    --version 1.28 \
+    --role-arn <cluster-role-arn> \
+    --resources-vpc-config subnetIds=<subnet-1>,<subnet-2>,securityGroupIds=<sg-id> \
+    --region <region>
+  ```
+- Xóa cluster: `aws eks delete-cluster --name <cluster-name> --region <region>`
+- Cập nhật kubeconfig: `aws eks update-kubeconfig --name <cluster-name> --region <region>`
+- Cập nhật kubeconfig với profile: `aws eks update-kubeconfig --name <cluster-name> --region <region> --profile <profile>`
+
+#### Node Group
+- Liệt kê node groups: `aws eks list-nodegroups --cluster-name <cluster-name> --region <region>`
+- Mô tả node group: `aws eks describe-nodegroup --cluster-name <cluster-name> --nodegroup-name <nodegroup-name> --region <region>`
+- Tạo managed node group:
+  ```bash
+  aws eks create-nodegroup \
+    --cluster-name <cluster-name> \
+    --nodegroup-name <nodegroup-name> \
+    --node-role <node-role-arn> \
+    --subnets <subnet-1> <subnet-2> \
+    --instance-types t3.medium \
+    --ami-type AL2_x86_64 \
+    --capacity-type ON_DEMAND \
+    --scaling-config minSize=1,maxSize=3,desiredSize=2 \
+    --region <region>
+  ```
+- Cập nhật node group (scale): `aws eks update-nodegroup-config --cluster-name <cluster-name> --nodegroup-name <nodegroup-name> --scaling-config minSize=2,maxSize=5,desiredSize=3 --region <region>`
+- Cập nhật version: `aws eks update-nodegroup-version --cluster-name <cluster-name> --nodegroup-name <nodegroup-name> --region <region>`
+- Xóa node group: `aws eks delete-nodegroup --cluster-name <cluster-name> --nodegroup-name <nodegroup-name> --region <region>`
+
+#### Fargate Profile
+- Liệt kê Fargate profiles: `aws eks list-fargate-profiles --cluster-name <cluster-name> --region <region>`
+- Tạo Fargate profile:
+  ```bash
+  aws eks create-fargate-profile \
+    --cluster-name <cluster-name> \
+    --fargate-profile-name <profile-name> \
+    --pod-execution-role-arn <execution-role-arn> \
+    --subnets <subnet-1> <subnet-2> \
+    --selectors namespace=default,labels={fargate=enabled} \
+    --region <region>
+  ```
+- Xóa Fargate profile: `aws eks delete-fargate-profile --cluster-name <cluster-name> --fargate-profile-name <profile-name> --region <region>`
+
+#### Add-ons
+- Liệt kê add-ons: `aws eks list-addons --cluster-name <cluster-name> --region <region>`
+- Cài đặt add-on (VD: VPC CNI): `aws eks create-addon --cluster-name <cluster-name> --addon-name vpc-cni --region <region>`
+- Cập nhật add-on: `aws eks update-addon --cluster-name <cluster-name> --addon-name vpc-cni --region <region>`
+- Xóa add-on: `aws eks delete-addon --cluster-name <cluster-name> --addon-name vpc-cni --region <region>`
+
+#### IAM Roles & Policies
+- Tạo IAM role cho cluster:
+  ```bash
+  aws iam create-role \
+    --role-name eks-cluster-role \
+    --assume-role-policy-document file://cluster-trust-policy.json
+  ```
+- Gắn policy: `aws iam attach-role-policy --role-name eks-cluster-role --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy`
+- Tạo IAM role cho node group:
+  ```bash
+  aws iam create-role \
+    --role-name eks-nodegroup-role \
+    --assume-role-policy-document file://node-trust-policy.json
+  ```
+- Gắn policies cho node: 
+  - `aws iam attach-role-policy --role-name eks-nodegroup-role --policy-arn arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy`
+  - `aws iam attach-role-policy --role-name eks-nodegroup-role --policy-arn arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy`
+  - `aws iam attach-role-policy --role-name eks-nodegroup-role --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly`
+
+#### Kiểm tra trạng thái
+- Trạng thái cluster: `aws eks describe-cluster --name <cluster-name> --region <region> --query 'cluster.status'`
+- Logs CloudWatch: `aws logs tail /aws/eks/<cluster-name>/cluster --follow --region <region>`
+- Kiểm tra node group health: `aws eks describe-nodegroup --cluster-name <cluster-name> --nodegroup-name <nodegroup-name> --region <region> --query 'nodegroup.health'`
+
+#### One-liners hữu ích
+- Xem tất cả clusters: `aws eks list-clusters --region <region> --output table`
+- Xem tất cả node groups: `aws eks list-nodegroups --cluster-name <cluster-name> --region <region> --output table`
+- Lấy endpoint: `aws eks describe-cluster --name <cluster-name> --region <region> --query 'cluster.endpoint' --output text`
+- Lấy CA certificate: `aws eks describe-cluster --name <cluster-name> --region <region> --query 'cluster.certificateAuthority.data' --output text | base64 -d`
+- Xem version: `aws eks describe-cluster --name <cluster-name> --region <region> --query 'cluster.version' --output text`
+
 
