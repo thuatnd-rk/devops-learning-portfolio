@@ -154,10 +154,43 @@ roleRef:
 ```
 
 ### Helm cơ bản
+#### Repository
 - Thêm repo: `helm repo add bitnami https://charts.bitnami.com/bitnami`
+- Liệt kê repos: `helm repo list`
 - Cập nhật repo: `helm repo update`
-- Cài đặt/upgrade: `helm upgrade --install <release> <chart> -n <ns> -f values.yaml`
+- Xóa repo: `helm repo remove <repo-name>`
+- Tìm kiếm chart: `helm search repo <keyword>`
+
+#### Cài đặt & Quản lý Release
+- Cài đặt: `helm install <release> <chart> -n <ns>`
+- Cài đặt với values file: `helm install <release> <chart> -n <ns> -f values.yaml`
+- Upgrade/Install (idempotent): `helm upgrade --install <release> <chart> -n <ns> -f values.yaml`
+- Upgrade release: `helm upgrade <release> <chart> -n <ns> -f values.yaml`
+- Liệt kê releases: `helm list -n <ns>` hoặc `helm ls -n <ns>`
+- Xem tất cả releases (kể cả failed): `helm list -a -n <ns>`
+- Xem trạng thái release: `helm status <release> -n <ns>`
+- Xem lịch sử release: `helm history <release> -n <ns>`
+- Rollback release: `helm rollback <release> [revision] -n <ns>`
+- Xóa release: `helm uninstall <release> -n <ns>`
+
+#### Xem thông tin Chart
 - Xem values mặc định: `helm show values <chart>`
+- Xem chart info: `helm show chart <chart>`
+- Xem tất cả thông tin: `helm show all <chart>`
+- Template chart (dry-run): `helm template <release> <chart> -n <ns> -f values.yaml`
+- Template với debug: `helm template <release> <chart> -n <ns> -f values.yaml --debug`
+
+#### Kiểm tra & Package
+- Lint chart: `helm lint <chart-path>`
+- Package chart: `helm package <chart-path>`
+- Test release: `helm test <release> -n <ns>`
+
+#### One-liners hữu ích
+- Cài đặt với nhiều values files: `helm install <release> <chart> -f values.yaml -f values-prod.yaml -n <ns>`
+- Cài đặt với set values: `helm install <release> <chart> --set key=value --set key2=value2 -n <ns>`
+- Xem manifest đã deploy: `helm get manifest <release> -n <ns>`
+- Xem values đã dùng: `helm get values <release> -n <ns>`
+- Xem notes: `helm get notes <release> -n <ns>`
 
 ### Autoscaling
 - Tạo HPA: `kubectl autoscale deploy/<name> --min=2 --max=10 --cpu-percent=80 -n <ns>`
