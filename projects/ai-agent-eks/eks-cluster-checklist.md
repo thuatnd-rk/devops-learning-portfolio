@@ -132,12 +132,11 @@
 ## ✅ Post-Creation Setup (Sau khi tạo cluster)
 
 ### kubectl Configuration
-- [ ] Cấu hình kubeconfig:
-  aws eks --region <region> update-kubeconfig --name <cluster-name>
-  - [ ] Verify kết nối:
-  kubectl get nodes
-  kubectl get pods -A
-  ### Verify Core Components
+- [ ] Cấu hình kubeconfig: `aws eks --region <region> update-kubeconfig --name <cluster-name>`
+- [ ] Verify kết nối:
+  `kubectl get nodes`
+  `kubectl get pods -A`
+### Verify Core Components
 - [ ] Check nodes status: `kubectl get nodes`
 - [ ] Check system pods: `kubectl get pods -n kube-system`
 - [ ] Check CoreDNS: `kubectl get pods -n kube-system | grep coredns`
