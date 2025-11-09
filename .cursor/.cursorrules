@@ -6,6 +6,7 @@ Language
 - Khi CHỈNH SỬA/TẠO MỚI MÃ NGUỒN: dùng comment tiếng Anh.
 - Nếu file/đoạn tài liệu gốc là tiếng Anh, tiếp tục dùng tiếng Anh cho phần đó.
 - Khi trích dẫn tài liệu/chuẩn chính thức: giữ nguyên thuật ngữ tiếng Anh, có thể chú thích ngắn bằng tiếng Việt nếu cần.
+- Luôn tìm kiếm thông tin, tài liệu mới nhất (năm 2025).
 
 Objectives
 - Ưu tiên hướng dẫn có thể chạy ngay (DevOps-first), kèm lệnh kiểm chứng an toàn (--dry-run, validate, template, diff).
