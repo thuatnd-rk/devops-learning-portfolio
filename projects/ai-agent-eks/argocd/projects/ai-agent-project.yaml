@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: ai-agent
+  namespace: argocd
+spec:
+  description: AI Agent Application Project
+  sourceRepos:
+    - 'https://github.com/your-org/ai-agent-eks'  # Update with your repo URL
+    - '*'  # Allow all repos (adjust based on security requirements)
+  destinations:
+    - namespace: '*'
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
