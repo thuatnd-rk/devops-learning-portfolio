@@ -1,0 +1,14 @@
+apiVersion: gateway.networking.k8s.io/v1  # API group and version for Gateway API
+kind: Gateway                             # Resource type: Gateway
+metadata:
+  name: main-gateway                           # Name of the Gateway resource
+  namespace: nginx-gateway         # Namespace where this Gateway resides
+spec:
+  gatewayClassName: nginx                 # References the GatewayClass to determine LB type/implementation
+  listeners:                              # Listeners define how the Gateway accepts traffic
+    - name: http                          # Listener name (unique within this Gateway)
+      port: 80                            # Port on which the listener will accept traffic
+      protocol: HTTP                      # Protocol for this listener (HTTP, HTTPS, TCP, etc.)
+      allowedRoutes:                      # Rules for which Routes can bind to this listener
+        namespaces:
+          from: All                       # Allows Routes from any namespace to attach

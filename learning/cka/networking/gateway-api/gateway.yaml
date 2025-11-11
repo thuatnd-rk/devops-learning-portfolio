@@ -9,3 +9,4 @@ spec:
     kind: NginxProxy
     name: ngf-proxy-config
     namespace: nginx-gateway
+
