@@ -4,24 +4,24 @@ metadata:
   name: customer-b-host-ingress
   namespace: customer-b
   annotations:
-    # QUAN TRỌNG: Cùng group name để dùng chung ALB
     alb.ingress.kubernetes.io/group.name: shared-alb
-    
-    # Backend protocol
+    alb.ingress.kubernetes.io/group.order: '3'
+
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-southeast-1:682743352767:certificate/b77db312-3a1f-447d-b099-7297286837bb
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
     alb.ingress.kubernetes.io/backend-protocol: HTTP
-    
-    # Health check
-    alb.ingress.kubernetes.io/healthcheck-path: /
+
+    alb.ingress.kubernetes.io/healthcheck-path: /health
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
     alb.ingress.kubernetes.io/healthcheck-interval-seconds: '30'
     alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '5'
     alb.ingress.kubernetes.io/healthy-threshold-count: '2'
     alb.ingress.kubernetes.io/unhealthy-threshold-count: '3'
-    
-    # Success codes
-    alb.ingress.kubernetes.io/success-codes: '200,301,302'
-    
-    # Group order
-    alb.ingress.kubernetes.io/group.order: '3'
+    alb.ingress.kubernetes.io/success-codes: '200'
 spec:
   ingressClassName: alb
   rules:
@@ -32,6 +32,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: customer-b-service  # Service trong namespace customer-b
+                name: customer-b-service
                 port:
                   number: 80
