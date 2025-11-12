@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: customer-b-host-ingress
+  namespace: customer-b
+  annotations:
+    # QUAN TRỌNG: Cùng group name để dùng chung ALB
+    alb.ingress.kubernetes.io/group.name: shared-alb
+    
+    # Backend protocol
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
+    
+    # Health check
+    alb.ingress.kubernetes.io/healthcheck-path: /
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: '30'
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '5'
+    alb.ingress.kubernetes.io/healthy-threshold-count: '2'
+    alb.ingress.kubernetes.io/unhealthy-threshold-count: '3'
+    
+    # Success codes
+    alb.ingress.kubernetes.io/success-codes: '200,301,302'
+    
+    # Group order
+    alb.ingress.kubernetes.io/group.order: '3'
+spec:
+  ingressClassName: alb
+  rules:
+    - host: customer-b.rookie.click
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: customer-b-service  # Service trong namespace customer-b
+                port:
+                  number: 80

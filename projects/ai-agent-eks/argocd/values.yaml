@@ -1,0 +1,9 @@
+server:
+  service:
+    type: ClusterIP
+  extraArgs:
+    - --insecure  # Cho phép HTTP từ ALB, không redirect HTTP→HTTPS
+  config:
+    # Set URL để ArgoCD generate absolute redirects đúng
+    # Với --insecure, ArgoCD sẽ không redirect HTTP→HTTPS
+    # url: https://argocd.rookie.click

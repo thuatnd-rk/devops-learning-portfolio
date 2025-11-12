@@ -1,0 +1,121 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer-a-app
+  namespace: customer-a
+  labels:
+    app: customer-a
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: customer-a
+  template:
+    metadata:
+      labels:
+        app: customer-a
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.25-alpine
+        ports:
+        - containerPort: 80
+          name: http
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+        volumeMounts:
+        - name: html-content
+          mountPath: /usr/share/nginx/html
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      volumes:
+      - name: html-content
+        configMap:
+          name: customer-a-html
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: customer-a-html
+  namespace: customer-a
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Customer A - Application</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
+            .container {
+                text-align: center;
+                padding: 40px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+                backdrop-filter: blur(10px);
+            }
+            h1 { font-size: 3em; margin: 0; }
+            p { font-size: 1.2em; }
+            .info {
+                margin-top: 20px;
+                padding: 20px;
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>🚀 Customer A</h1>
+            <p>Welcome to Customer A Application</p>
+            <div class="info">
+                <p><strong>Namespace:</strong> customer-a</p>
+                <p><strong>Service:</strong> customer-a-service</p>
+                <p><strong>Hostname:</strong> customer-a.rookie.click</p>
+                <p><strong>Status:</strong> ✅ Running</p>
+            </div>
+        </div>
+    </body>
+    </html>
+  health: |
+    OK
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: customer-a-service
+  namespace: customer-a
+  labels:
+    app: customer-a
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    app: customer-a
