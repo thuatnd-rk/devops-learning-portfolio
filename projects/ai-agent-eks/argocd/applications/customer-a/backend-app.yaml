@@ -1,0 +1,26 @@
+# projects/ai-agent-eks/argocd/applications/customer-a/backend-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: customer-a-backend
+  namespace: argocd
+  labels:
+    customer: customer-a
+    service: backend
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: ai-agent
+  source:
+    repoURL: https://github.com/thuatnd-rk/customer-a-backend  # Repo riêng cho backend
+    targetRevision: main
+    path: kubernetes
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: customer-a
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

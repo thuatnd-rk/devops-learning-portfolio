@@ -1,0 +1,23 @@
+# projects/ai-agent-eks/argocd/applications/ingress-apps.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-configs
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: ai-agent
+  source:
+    repoURL: https://github.com/YOUR_USERNAME/devops-learning-portfolio
+    targetRevision: main
+    path: projects/ai-agent-eks/kubernetes/ingress
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default  # Ingress có thể ở namespace khác nhau
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

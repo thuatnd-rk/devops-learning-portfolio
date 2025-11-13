@@ -6,8 +6,8 @@ metadata:
 spec:
   description: AI Agent Application Project
   sourceRepos:
-    - 'https://github.com/your-org/ai-agent-eks'  # Update with your repo URL
-    - '*'  # Allow all repos (adjust based on security requirements)
+    - 'https://github.com/thuatnd-rk/devops-learning-portfolio'
+    - 'https://github.com/thuatnd-rk/devops-learning-portfolio.git'
   destinations:
     - namespace: '*'
       server: https://kubernetes.default.svc
