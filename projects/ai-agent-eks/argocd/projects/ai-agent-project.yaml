@@ -8,6 +8,9 @@ spec:
   sourceRepos:
     - 'https://github.com/thuatnd-rk/devops-learning-portfolio'
     - 'https://github.com/thuatnd-rk/devops-learning-portfolio.git'
+    - 'https://github.com/rookie-ai-agent/backend'
+    - 'https://github.com/rookie-ai-agent/frontend'
+    - 'https://github.com/rookie-ai-agent/data-manager'
   destinations:
     - namespace: '*'
       server: https://kubernetes.default.svc

@@ -12,8 +12,8 @@ metadata:
 spec:
   project: ai-agent
   source:
-    repoURL: https://github.com/thuatnd-rk/customer-a-frontend  # Repo riêng cho frontend
-    targetRevision: main
+    repoURL: https://github.com/rookie-ai-agent/frontend  # Repo riêng cho frontend
+    targetRevision: customer-a
     path: kubernetes  # Path trong repo chứa manifests
   destination:
     server: https://kubernetes.default.svc
