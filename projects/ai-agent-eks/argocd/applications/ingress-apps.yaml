@@ -9,7 +9,7 @@ metadata:
 spec:
   project: ai-agent
   source:
-    repoURL: https://github.com/YOUR_USERNAME/devops-learning-portfolio
+    repoURL: https://github.com/thuatnd-rk/devops-learning-portfolio
     targetRevision: main
     path: projects/ai-agent-eks/kubernetes/ingress
   destination:
