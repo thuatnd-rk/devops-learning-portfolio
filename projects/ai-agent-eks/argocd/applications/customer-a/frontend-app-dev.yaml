@@ -1,23 +1,21 @@
-# projects/ai-agent-eks/argocd/applications/customer-a/backend-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: customer-a-backend
+  name: customer-a-frontend-dev
   namespace: argocd
   labels:
     customer: customer-a
-    service: backend
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
+    service: frontend
+    environment: dev
 spec:
   project: ai-agent
   source:
-    repoURL: https://github.com/rookie-ai-agent/backend
+    repoURL: https://github.com/rookie-ai-agent/frontend
     targetRevision: customer-a
-    path: kubernetes
+    path: kubernetes/overlays/dev
   destination:
     server: https://kubernetes.default.svc
-    namespace: customer-a
+    namespace: customer-a-dev
   syncPolicy:
     automated:
       prune: true

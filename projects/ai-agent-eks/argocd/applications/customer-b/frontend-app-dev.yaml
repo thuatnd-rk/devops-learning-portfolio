@@ -1,23 +1,24 @@
-# projects/ai-agent-eks/argocd/applications/customer-a/data-manager-app.yaml
+# projects/ai-agent-eks/argocd/applications/customer-b/frontend-app-dev.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: customer-b-data-manager
+  name: customer-b-frontend-dev
   namespace: argocd
   labels:
     customer: customer-b
-    service: data-manager
+    service: frontend
+    environment: dev
   finalizers:
-    - resources-finalizer.argoproj.io
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: ai-agent
   source:
-    repoURL: https://github.com/rookie-ai-agent/data-manager
+    repoURL: https://github.com/rookie-ai-agent/frontend
     targetRevision: customer-b
-    path: kubernetes
+    path: kubernetes/overlays/dev
   destination:
     server: https://kubernetes.default.svc
-    namespace: customer-b
+    namespace: customer-b-dev
   syncPolicy:
     automated:
       prune: true

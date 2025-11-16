@@ -1,23 +1,24 @@
-# projects/ai-agent-eks/argocd/applications/customer-a/backend-app.yaml
+# projects/ai-agent-eks/argocd/applications/customer-b/data-manager-app-production.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: customer-b-backend
+  name: customer-b-data-manager-production
   namespace: argocd
   labels:
     customer: customer-b
-    service: backend
+    service: data-manager
+    environment: production
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: ai-agent
   source:
-    repoURL: https://github.com/rookie-ai-agent/backend
+    repoURL: https://github.com/rookie-ai-agent/data-manager
     targetRevision: customer-b
-    path: kubernetes
+    path: kubernetes/overlays/production
   destination:
     server: https://kubernetes.default.svc
-    namespace: customer-b
+    namespace: customer-b-production
   syncPolicy:
     automated:
       prune: true

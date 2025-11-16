@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: customer-a-data-manager-production
+  namespace: argocd
+  labels:
+    customer: customer-a
+    service: data-manager
+    environment: production
+spec:
+  project: ai-agent
+  source:
+    repoURL: https://github.com/rookie-ai-agent/data-manager
+    targetRevision: customer-a
+    path: kubernetes/overlays/production
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: customer-a-production
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=trues
