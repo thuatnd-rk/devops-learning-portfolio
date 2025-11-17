@@ -13,6 +13,13 @@ spec:
       labels:
         app: redis
     spec:
+      volumes:
+           - name: redis-config
+             configMap:
+               name: redis-config
+           - name: redis-data
+             persistentVolumeClaim:
+               claimName: redis-data
       nodeSelector:
         workload-type: data
       tolerations:
