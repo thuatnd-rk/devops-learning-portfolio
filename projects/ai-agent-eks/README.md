@@ -34,13 +34,13 @@ Mỗi khách hàng được triển khai trong một **namespace riêng biệt**
 Cluster được cấu hình với các node groups theo layer:
 
 ### Data Layer
-- **Labels**: `workload-type=data`, `tier=data`
+- **Labels**: `workload-type=data`
 - **Taints**: `workload-type=data:NoSchedule`
 - **Mục đích**: Chỉ cho phép các thành phần data truy cập
 - **Workloads**: PostgreSQL, Redis
 
 ### Application Layer
-- **Labels**: `workload-type=application`, `tier=web`
+- **Labels**: `workload-type=application`
 - **Taints**: (None)
 - **Mục đích**: Cho phép các thành phần application truy cập
 - **Workloads**: Frontend, Backend, Data Manager
