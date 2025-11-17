@@ -15,7 +15,6 @@ spec:
     spec:
       nodeSelector:
         workload-type: data
-        tier: data
       tolerations:
         - key: workload-type
           operator: Equal
