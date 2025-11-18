@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: customer-a-host-ingress
-  namespace: customer-a
+  namespace: customer-a-dev
   annotations:
     alb.ingress.kubernetes.io/group.name: shared-alb
     alb.ingress.kubernetes.io/group.order: '2'
@@ -28,6 +28,16 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
+    - host: customer-a-backend.rookie.click
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: 80
     - host: customer-a.rookie.click
       http:
         paths:
@@ -35,6 +45,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: customer-a-service
+                name: frontend-service
                 port:
                   number: 80
