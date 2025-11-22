@@ -1,11 +1,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: customer-a-host-ingress
+  name: customer-a-data-manager-ingress
   namespace: customer-a-dev
   annotations:
     alb.ingress.kubernetes.io/group.name: shared-alb
-    alb.ingress.kubernetes.io/group.order: '2'
+    alb.ingress.kubernetes.io/group.order: '4'
 
     # ALB internet facing, IP targets
     alb.ingress.kubernetes.io/scheme: internet-facing
@@ -17,7 +17,7 @@ metadata:
     alb.ingress.kubernetes.io/ssl-redirect: '443'
     alb.ingress.kubernetes.io/backend-protocol: HTTP
 
-    # Health check (tùy app, hiện service trả /health từ ConfigMap)
+    # Health check - sử dụng / (endpoint có sẵn của data-manager)
     alb.ingress.kubernetes.io/healthcheck-path: /
     alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
     alb.ingress.kubernetes.io/healthcheck-interval-seconds: '30'
@@ -28,26 +28,6 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-    - host: customer-a.rookie.click
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: frontend-service
-                port:
-                  number: 80
-    - host: customer-a-backend.rookie.click
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: backend-service
-                port:
-                  number: 3003
     - host: customer-a-data-manager.rookie.click
       http:
         paths:
