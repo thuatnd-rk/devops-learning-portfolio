@@ -31,20 +31,6 @@ spec:
     - host: customer-a.rookie.click
       http:
         paths:
-          - path: /api
-            pathType: Prefix
-            backend:
-              service:
-                name: backend-service
-                port:
-                  number: 3003
-          - path: /s3-explorer
-            pathType: Prefix
-            backend:
-              service:
-                name: backend-service
-                port:
-                  number: 3003
           - path: /
             pathType: Prefix
             backend:
@@ -52,3 +38,23 @@ spec:
                 name: frontend-service
                 port:
                   number: 80
+    - host: customer-a-backend.rookie.click
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: 3003
+    - host: customer-a-data-manager.rookie.click
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: data-manager-service
+                port:
+                  number: 3001
