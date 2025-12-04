@@ -1,9 +1,13 @@
-# projects/ai-agent-eks/argocd/applications/ingress-apps.yaml
+# projects/ai-agent-eks/argocd/applications/customer-a/postgres-app-production.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ingress-configs
+  name: customer-a-postgres-production
   namespace: argocd
+  labels:
+    customer: customer-a
+    service: postgres
+    environment: production
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -11,13 +15,14 @@ spec:
   source:
     repoURL: https://github.com/thuatnd-rk/devops-learning-portfolio
     targetRevision: main
-    path: projects/ai-agent-eks/kubernetes/ingress
+    path: projects/ai-agent-eks/kubernetes/database/postgres/overlays/customer-a-production
   destination:
     server: https://kubernetes.default.svc
-    namespace: default  # Ingress có thể ở namespace khác nhau
+    namespace: customer-a-production
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+

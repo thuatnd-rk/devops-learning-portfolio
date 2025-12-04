@@ -2,17 +2,39 @@
 **/*.pdf
 **/*.png
 **/*.jpg
+**/*.jpeg
 **/*.gif
 **/*.zip
 **/*.tar.gz
+**/*.svg
+**/*.ico
 
 # Build/venv/cache
 **/node_modules/**
 **/dist/**
+**/build/**
+**/.next/**
+**/.nuxt/**
+**/.output/**
 **/.terraform/**
 **/.terragrunt-cache/**
 **/.venv/**
+**/venv/**
 **/__pycache__/**
+**/.pytest_cache/**
+**/.mypy_cache/**
+
+# Package manager files
+**/package-lock.json
+**/yarn.lock
+**/pnpm-lock.yaml
+**/.pnpm-store/**
+
+# TypeScript/JavaScript build artifacts
+**/*.js.map
+**/*.d.ts.map
+**/.tsbuildinfo
+**/tsconfig.tsbuildinfo
 
 # Charts vendored / generated
 **/charts/**/charts/**
@@ -27,8 +49,46 @@ books/**
 **/.idea/**
 **/.vscode/**
 **/.history/**
+**/.cursor/**
 
 # Terraform lock/state (đã theo dõi state ở backend thì bỏ qua lock cho nhẹ)
 **/.terraform.lock.hcl
 **/*.tfstate
 **/*.tfstate.*
+
+# Docker
+**/docker-compose.override.yml
+**/.dockerignore
+
+# Logs
+**/*.log
+**/logs/**
+
+# Test coverage
+**/coverage/**
+**/.nyc_output/**
+
+# Environment files (có thể chứa secrets)
+**/.env
+**/.env.local
+**/.env.*.local
+
+# Build artifacts cho các service repos
+**/backend/packages/**/dist/**
+**/backend/packages/**/build/**
+**/frontend/dist/**
+**/frontend/build/**
+**/data-manager/dist/**
+**/data-manager/build/**
+
+# Cypress test artifacts
+**/cypress/videos/**
+**/cypress/screenshots/**
+
+# Turbo build cache
+**/.turbo/**
+
+# Database files
+**/*.db
+**/*.sqlite
+**/*.sqlite3

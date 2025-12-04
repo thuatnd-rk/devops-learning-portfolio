@@ -1,0 +1,51 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: java-app-ingress
+  namespace: pet-clinic-app
+  annotations:
+    # Load balancer configuration
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    
+    # Group name - dùng chung ALB với các service khác (tùy chọn)
+    # alb.ingress.kubernetes.io/group.name: shared-alb
+    # alb.ingress.kubernetes.io/group.order: '10'
+    
+    # SSL/TLS Configuration - thay bằng ARN certificate của bạn
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-southeast-1:<ACCOUNT_ID>:certificate/<CERT_ID>
+    alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-2-2017-01
+    
+    # Listen ports
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    
+    # Redirect HTTP to HTTPS
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    
+    # Backend protocol
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
+    
+    # Health check - sử dụng actuator endpoint của Spring Boot
+    alb.ingress.kubernetes.io/healthcheck-path: /actuator/health
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: '30'
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '10'
+    alb.ingress.kubernetes.io/healthy-threshold-count: '2'
+    alb.ingress.kubernetes.io/unhealthy-threshold-count: '3'
+    alb.ingress.kubernetes.io/success-codes: '200'
+    
+    # Connection timeout
+    alb.ingress.kubernetes.io/connection-idle-timeout: '60'
+spec:
+  ingressClassName: alb
+  rules:
+    - host: petclinic.rookie.click  # Thay bằng domain của bạn
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: java-app-service
+                port:
+                  number: 8080

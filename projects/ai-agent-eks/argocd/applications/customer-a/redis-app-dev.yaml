@@ -1,9 +1,13 @@
-# projects/ai-agent-eks/argocd/applications/ingress-apps.yaml
+# projects/ai-agent-eks/argocd/applications/customer-a/redis-app-dev.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ingress-configs
+  name: customer-a-redis-dev
   namespace: argocd
+  labels:
+    customer: customer-a
+    service: redis
+    environment: dev
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -11,13 +15,14 @@ spec:
   source:
     repoURL: https://github.com/thuatnd-rk/devops-learning-portfolio
     targetRevision: main
-    path: projects/ai-agent-eks/kubernetes/ingress
+    path: projects/ai-agent-eks/kubernetes/database/redis/overlays/customer-a-dev
   destination:
     server: https://kubernetes.default.svc
-    namespace: default  # Ingress có thể ở namespace khác nhau
+    namespace: customer-a-dev
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+

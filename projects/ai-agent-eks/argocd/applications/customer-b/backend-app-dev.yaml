@@ -1,20 +1,24 @@
-# projects/ai-agent-eks/argocd/applications/ingress-apps.yaml
+# projects/ai-agent-eks/argocd/applications/customer-b/backend-app-dev.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ingress-configs
+  name: customer-b-backend-dev
   namespace: argocd
+  labels:
+    customer: customer-b
+    service: backend
+    environment: dev
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: ai-agent
   source:
-    repoURL: https://github.com/thuatnd-rk/devops-learning-portfolio
-    targetRevision: main
-    path: projects/ai-agent-eks/kubernetes/ingress
+    repoURL: https://github.com/rookie-ai-agent/backend
+    targetRevision: customer-b
+    path: kubernetes/overlays/dev
   destination:
     server: https://kubernetes.default.svc
-    namespace: default  # Ingress có thể ở namespace khác nhau
+    namespace: customer-b-dev
   syncPolicy:
     automated:
       prune: true
